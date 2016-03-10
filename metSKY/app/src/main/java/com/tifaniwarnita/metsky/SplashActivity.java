@@ -15,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 public class SplashActivity extends AppCompatActivity {
+    private Intent myActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +35,10 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 finish();
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-                intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                myActivity = new Intent(SplashActivity.this, MainActivity.class);
+                myActivity.setFlags(myActivity.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                startActivity(intent);
+                startActivity(myActivity);
             }
 
             @Override
@@ -47,4 +48,13 @@ public class SplashActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (myActivity==null) {
+            myActivity = new Intent(SplashActivity.this, MainActivity.class);
+            myActivity.setFlags(myActivity.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        }
+        startActivity(myActivity);
+    }
 }

@@ -10,7 +10,9 @@ public class FirebaseConfig {
     public static Firebase ref = null;
 
     public static void initialize() {
-        Firebase.getDefaultConfig().setPersistenceEnabled(true);
-        ref = new Firebase(URL);
+        if (ref==null) {
+            Firebase.getDefaultConfig().setPersistenceEnabled(true);
+            ref = new Firebase(URL);
+        }
     }
 }

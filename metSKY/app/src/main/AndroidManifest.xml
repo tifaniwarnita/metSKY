@@ -23,7 +23,8 @@
         <activity
             android:name=".SplashActivity"
             android:label="@string/title_activity_splash"
-            android:theme="@style/AppTheme.AppCompat.Light.NoActionBar.FullScreen" >
+            android:theme="@style/AppTheme.AppCompat.Light.NoActionBar.FullScreen"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

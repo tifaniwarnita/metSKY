@@ -1,13 +1,20 @@
 package com.tifaniwarnita.metsky.controllers;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.util.Log;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.tifaniwarnita.metsky.LoginFragment;
+import com.tifaniwarnita.metsky.SignUpFragment;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
 
 /**
  * Created by Tifani on 2/18/2016.
@@ -15,6 +22,7 @@ import java.util.Map;
 public class AuthenticationHandler {
     private static AuthData authData = null;
     private static String message = "";
+    private static Activity activity = null;
 
     public static boolean auth() {
         authData = FirebaseConfig.ref.getAuth();
@@ -27,19 +35,17 @@ public class AuthenticationHandler {
         }
     }
 
-    public static boolean signUp(String email, String password) {
-        final String userEmail = email;
+    public static boolean signUp(final String name, final String email, final String password, final ProgressDialog progressDialog,
+                                 final SignUpFragment.SignUpFragmentListener signUpFragmentListener) {
+
         FirebaseConfig.ref.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
             @Override
             public void onSuccess(Map<String, Object> stringObjectMap) {
                 // Creating new account completed successfully
                 Log.i("SIGN UP", "Successfully created user account with uid: " + stringObjectMap.get("uid"));
-
-                // Add new data in table user
-                Map<String, String> newUser = new HashMap<String, String>();
-                newUser.put("email", authData.getProviderData().get("email").toString());
-                FirebaseConfig.ref.child("users").child(authData.getUid()).setValue(newUser);
-                AuthenticationHandler.message = "Sign up success";
+                AuthenticationHandler.addUser(stringObjectMap.get("uid").toString(), name, email);
+                progressDialog.dismiss();
+                signUpFragmentListener.onSignUpSuccess(email, password);
             }
 
             @Override
@@ -48,19 +54,22 @@ public class AuthenticationHandler {
                 switch (firebaseError.getCode()) {
                     case FirebaseError.EMAIL_TAKEN:
                         // handle for email that has been taken
-                        AuthenticationHandler.message = "Email has been taken";
+                        AuthenticationHandler.message = "Email sudah diambil";
                         break;
                     case FirebaseError.INVALID_EMAIL:
                         // handle an invalid email
-                        AuthenticationHandler.message = "Invalid email";
+                        AuthenticationHandler.message = "Email salah";
                         break;
                     default:
                         // handle other errors
-                        AuthenticationHandler.message = "Other error";
+                        AuthenticationHandler.message = "Terjadi kesalahan";
                         break;
                 }
+                progressDialog.dismiss();
+                AuthenticationHandler.showAlert();
             }
         });
+
         if (message.equalsIgnoreCase("Sign up success")) {
             return true;
         } else {
@@ -68,12 +77,25 @@ public class AuthenticationHandler {
         }
     }
 
-    public static boolean login(String email, String password) {
+    private static void addUser(String id, String name, String email) {
+        // Add new data in table user
+        Map<String, String> newUser = new HashMap<String, String>();
+        newUser.put("nama", name);
+        newUser.put("email", email);
+        Map<String, Map<String, String>> user = new HashMap<String, Map<String, String>>();
+
+        FirebaseConfig.ref.child("users").child(id).setValue(newUser);
+    }
+
+    public static boolean login(final String email, final String password, final ProgressDialog progressDialog,
+                                final LoginFragment.LoginFragmentListener loginFragmentListener) {
         FirebaseConfig.ref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
                 AuthenticationHandler.authData = authData;
                 AuthenticationHandler.message = "Login success";
+                progressDialog.dismiss();
+                loginFragmentListener.onLoginSuccess();
             }
 
             @Override
@@ -83,16 +105,18 @@ public class AuthenticationHandler {
                 switch (firebaseError.getCode()) {
                     case FirebaseError.USER_DOES_NOT_EXIST:
                         // handle a non existing user
-                        AuthenticationHandler.message = "User does not exist";
+                        AuthenticationHandler.message = "Alamat email tidak terdaftar";
                         break;
                     case FirebaseError.INVALID_PASSWORD:
                         // handle an invalid password
-                        AuthenticationHandler.message = "Invalid password";
+                        AuthenticationHandler.message = "Kata sandi salah";
                         break;
                     default:
-                        AuthenticationHandler.message = "Other error";
+                        AuthenticationHandler.message = "Terjadi kesalahan";
                         break;
                 }
+                progressDialog.dismiss();
+                AuthenticationHandler.showAlert();
             }
         });
         if (authData != null) {
@@ -105,6 +129,25 @@ public class AuthenticationHandler {
     public static void logout() {
         FirebaseConfig.ref.unauth();
         authData = null;
+    }
+
+    public static void setActivity(Activity a) {
+        activity = a;
+    }
+
+    public static void showAlert() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+        alertDialogBuilder.setMessage(message);
+
+        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                //TODO:
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
 }
