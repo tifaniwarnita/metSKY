@@ -10,6 +10,13 @@ import android.widget.ImageButton;
 
 
 public class EmotionFragment extends Fragment {
+    public static final int EMOTION_TWINK = 1;
+    public static final int EMOTION_SURPRISED = 2;
+    public static final int EMOTION_HAPPY = 3;
+    public static final int EMOTION_FLAT = 4;
+    public static final int EMOTION_ANGRY = 5;
+
+
     private ImageButton imageButtonTwink;
     private ImageButton imageButtonSurprised;
     private ImageButton imageButtonHappy;
@@ -19,11 +26,7 @@ public class EmotionFragment extends Fragment {
     private EmotionFragmentListener emotionFragmentListener;
 
     public interface EmotionFragmentListener {
-        public void onTwinkEmotionSelected();
-        public void onSurprisedEmotionSelected();
-        public void onHappyEmotionSelected();
-        public void onFlatEmotionSelected();
-        public void onAngryEmotionSelected();
+        public void onEmotionSelected(int emotion);
     }
 
     public EmotionFragment() {
@@ -56,35 +59,35 @@ public class EmotionFragment extends Fragment {
         imageButtonTwink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emotionFragmentListener.onTwinkEmotionSelected();
+                emotionFragmentListener.onEmotionSelected(EMOTION_TWINK);
             }
         });
 
         imageButtonSurprised.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emotionFragmentListener.onSurprisedEmotionSelected();
+                emotionFragmentListener.onEmotionSelected(EMOTION_SURPRISED);
             }
         });
 
         imageButtonHappy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emotionFragmentListener.onHappyEmotionSelected();
+                emotionFragmentListener.onEmotionSelected(EMOTION_HAPPY);
             }
         });
 
         imageButtonFlat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emotionFragmentListener.onFlatEmotionSelected();
+                emotionFragmentListener.onEmotionSelected(EMOTION_FLAT);
             }
         });
 
         imageButtonAngry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emotionFragmentListener.onAngryEmotionSelected();
+                emotionFragmentListener.onEmotionSelected(EMOTION_ANGRY);
             }
         });
     }

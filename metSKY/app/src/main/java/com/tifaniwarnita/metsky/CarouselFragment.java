@@ -41,7 +41,8 @@ public class CarouselFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_carousel, container, false);
-        slider = (SliderLayout) v.findViewById(R.id.slider);
+        slider = (SliderLayout) v.findViewById(R.id.carousel_slider);
+        buttonLanjut = (Button) v.findViewById(R.id.carousel_button_lanjut);
 
         HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
         file_maps.put("NOTIF_WELCOME_1", R.drawable.notif_welcome_1);

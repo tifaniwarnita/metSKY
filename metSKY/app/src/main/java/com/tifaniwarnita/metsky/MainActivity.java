@@ -18,7 +18,7 @@ import com.tifaniwarnita.metsky.controllers.FirebaseConfig;
 
 public class MainActivity extends AppCompatActivity implements SignUpFragment.SignUpFragmentListener,
         LoginFragment.LoginFragmentListener, CarouselFragment.CarouselFragmentListener,
-        EmotionFragment.EmotionFragmentListener {
+        EmotionFragment.EmotionFragmentListener, HomeFragment.HomeFragmentListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +76,19 @@ public class MainActivity extends AppCompatActivity implements SignUpFragment.Si
 
     @Override
     public void onLoginButtonPressed() {
+        //TODO: nanti harus diganti
+
         FragmentManager fm = getSupportFragmentManager();
+
+        /* fm.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                .replace(R.id.fragment_container, new LoginFragment())
+                .addToBackStack(null)
+                .commit(); */
 
         fm.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                .replace(R.id.fragment_container, new LoginFragment())
+                .replace(R.id.fragment_container, new HomeFragment())
                 .addToBackStack(null)
                 .commit();
     }
@@ -110,27 +118,33 @@ public class MainActivity extends AppCompatActivity implements SignUpFragment.Si
     }
 
     @Override
-    public void onTwinkEmotionSelected() {
+    public void onEmotionSelected(int emotion) {
+        /*/* switch (emotion) {
+            case EmotionFragment.EMOTION_TWINK:
 
-    }
+                break;
+            case EmotionFragment.EMOTION_SURPRISED:
 
-    @Override
-    public void onSurprisedEmotionSelected() {
+                break;
+            case EmotionFragment.EMOTION_HAPPY:
 
-    }
+                break;
+            case EmotionFragment.EMOTION_FLAT:
 
-    @Override
-    public void onHappyEmotionSelected() {
+                break;
+            case EmotionFragment.EMOTION_ANGRY:
 
-    }
+                break;
+            default:
 
-    @Override
-    public void onFlatEmotionSelected() {
+                break;
+        }*/
+        FragmentManager fm = getSupportFragmentManager();
 
-    }
-
-    @Override
-    public void onAngryEmotionSelected() {
-
+        fm.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                .replace(R.id.fragment_container, new HomeFragment())
+                .addToBackStack(null)
+                .commit();
     }
 }

@@ -7,4 +7,25 @@
     <color name="darkRed">#D65455</color>
     <color name="red">#EF675F</color>
     <color name="white">#FFFFFF</color>
+
+    <color name="barGreen">#077526</color>
+    <color name="barPink">#D65555</color>
+    <color name="barBlue">#375D80</color>
+    <color name="barOrange">#D15630</color>
+    <color name="barLightBlue">#4885A3</color>
+
+    <color name="bulletGreen">#077526</color>
+    <color name="bulletPink">#D65555</color>
+    <color name="bulletBlue">#375D80</color>
+    <color name="bulletOrange">#D15630</color>
+    <color name="bulletLightBlue">#4885A3</color>
+
+    <color name="primaryGreen">#1D9E49</color>
+    <color name="primaryPink">#EF675F</color>
+    <color name="primaryBlue">#336699</color>
+    <color name="primaryOrange">#EC7C40</color>
+    <color name="primaryLightBlue">#6098BB</color>
+
+
+
 </resources>

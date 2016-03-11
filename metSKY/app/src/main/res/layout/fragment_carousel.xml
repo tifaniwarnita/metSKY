@@ -28,7 +28,7 @@
         android:gravity="center">
 
         <com.daimajia.slider.library.SliderLayout
-            android:id="@+id/slider"
+            android:id="@+id/carousel_slider"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             />
