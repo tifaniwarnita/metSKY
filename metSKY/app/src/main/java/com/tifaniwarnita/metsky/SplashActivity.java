@@ -51,10 +51,11 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (myActivity==null) {
+        // TODO: cuma pas start aja dan sisanya ke state terakhir
+        /* if (myActivity==null) {
             myActivity = new Intent(SplashActivity.this, MainActivity.class);
             myActivity.setFlags(myActivity.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
         }
-        startActivity(myActivity);
+        startActivity(myActivity);*/
     }
 }

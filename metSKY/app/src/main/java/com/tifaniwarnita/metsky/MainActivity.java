@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements SignUpFragment.Si
 
         fm.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                .replace(R.id.fragment_container, new HomeFragment())
+                .replace(R.id.fragment_container, new EmotionFragment())
                 .addToBackStack(null)
                 .commit();
     }
@@ -119,31 +119,33 @@ public class MainActivity extends AppCompatActivity implements SignUpFragment.Si
 
     @Override
     public void onEmotionSelected(int emotion) {
-        /*/* switch (emotion) {
+        String param;
+        switch (emotion) {
             case EmotionFragment.EMOTION_TWINK:
-
+                param = "twink";
                 break;
             case EmotionFragment.EMOTION_SURPRISED:
-
+                param = "surprised";
                 break;
             case EmotionFragment.EMOTION_HAPPY:
-
+                param = "happy";
                 break;
             case EmotionFragment.EMOTION_FLAT:
-
+                param = "flat";
                 break;
             case EmotionFragment.EMOTION_ANGRY:
-
+                param = "angry";
                 break;
             default:
-
+                param = "";
                 break;
-        }*/
+        }
+
         FragmentManager fm = getSupportFragmentManager();
 
         fm.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                .replace(R.id.fragment_container, new HomeFragment())
+                .replace(R.id.fragment_container, HomeFragment.newInstance(param))
                 .addToBackStack(null)
                 .commit();
     }

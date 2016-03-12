@@ -1,86 +1,46 @@
 package com.tifaniwarnita.metsky;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.pm.PackageManager;
+import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
+import com.tifaniwarnita.metsky.models.Cuaca;
+import com.tifaniwarnita.metsky.models.InformasiCuaca;
+
+import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
+import rx.functions.Action1;
 
 
-public class HomeFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+public class HomeFragment extends Fragment {
 
     private static final int REQUEST_LOCATION = 2;
     private static final String ARG_EMOTION = "emotion";
-    private String emotion;
+    private String emotion = "";
 
     private HomeFragmentListener homeFragmentListener;
+    private LinearLayout linearLayoutBackground;
+    private RelativeLayout relativeLayoutBarOne;
+    private LinearLayout linearLayoutBarTwo;
     private TextView textViewLokasi;
-    private GoogleApiClient googleApiClient;
-    private Location lastLocation;
+    private TextView textViewDerajat;
+    private TextView textViewKelembaban;
+    private ImageView imageViewAwan;
+    private ImageView imageViewArahAngin;
+    private TextView textViewKecepatanAngin;
+    private ImageView imageViewMood;
 
-    @Override
-    public void onConnected(Bundle bundle) {
-        googleApiClient.connect();
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
-            // Check Permissions Now
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
-            } else {
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                        REQUEST_LOCATION);
-            }
-        }
-        lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-
-        if (lastLocation != null) {
-            textViewLokasi.setText("Lat: " + String.valueOf(lastLocation.getLatitude()) +
-                    " Lon: " + String.valueOf(lastLocation.getLongitude()));
-        } else {
-            textViewLokasi.setText("G aada lastloc obbj");
-        }
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        // TODO: https://developers.google.com/android/guides/permissions#handle_connection_failures
-        textViewLokasi.setText("gagal konek");
-    }
-
-    @Override
-    public void onStart() {
-        googleApiClient.connect();
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        googleApiClient.disconnect();
-        super.onStop();
-    }
+    private InformasiCuaca informasiCuaca;
 
     public interface HomeFragmentListener {
 
@@ -105,14 +65,6 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
             emotion = getArguments().getString(ARG_EMOTION);
         }
 
-        // Create an instance of GoogleAPIClient.
-        if (googleApiClient == null) {
-            googleApiClient = new GoogleApiClient.Builder(getActivity())
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
     }
 
     @Override
@@ -120,35 +72,88 @@ public class HomeFragment extends Fragment implements GoogleApiClient.Connection
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_home, container, false);
+
+        linearLayoutBackground = (LinearLayout) v.findViewById(R.id.home_background);
+        relativeLayoutBarOne = (RelativeLayout) v.findViewById(R.id.home_bar_one);
+        linearLayoutBarTwo = (LinearLayout) v.findViewById(R.id.home_bar_two);
         textViewLokasi = (TextView) v.findViewById(R.id.home_textview_lokasi);
+        textViewDerajat = (TextView) v.findViewById(R.id.home_textview_derajat);
+        textViewKelembaban = (TextView) v.findViewById(R.id.home_textview_kelembaban);
+        imageViewAwan = (ImageView) v.findViewById(R.id.home_imageview_awan);
+        imageViewArahAngin = (ImageView) v.findViewById(R.id.home_imageview_arahangin);
+        textViewKecepatanAngin = (TextView) v.findViewById(R.id.home_textview_kecepatanangin);
+        imageViewMood = (ImageView) v.findViewById(R.id.home_imageview_mood);
 
-        /* // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
-        String url = "http://www.google.com";
+        // Update color based on mood
+        updateBackgroundColor();
 
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
+        final HomeFragment homeFragment = this;
+
+        ReactiveLocationProvider locationProvider = new ReactiveLocationProvider(getActivity());
+        locationProvider.getLastKnownLocation()
+                .subscribe(new Action1<Location>() {
                     @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        //textViewLokasi.setText("Response is: "+ response.substring(0,500));
+                    public void call(Location location) {
+                        informasiCuaca = new InformasiCuaca(String.valueOf(location.getLatitude()),
+                                String.valueOf(location.getLongitude()), getActivity(), homeFragment);
                     }
-                }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    //textViewLokasi.setText("That didn't work!");
-                }
-        });
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+                });
 
-        if (lastLocation != null) {
-            textViewLokasi.setText("Lat: " + String.valueOf(lastLocation.getLatitude()) +
-                    " Lon: " + String.valueOf(lastLocation.getLongitude()));
-        } */
 
         return v;
+    }
+
+    public void updateBackgroundColor() {
+        int primaryColor;
+        int barColor;
+
+        switch (emotion) {
+            case "twink":
+                primaryColor = R.color.primaryBlue;
+                barColor = R.color.barBlue;
+                break;
+            case "surprised":
+                primaryColor = R.color.primaryLightBlue;
+                barColor = R.color.barLightBlue;
+                break;
+            case "happy":
+                primaryColor = R.color.primaryOrange;
+                barColor = R.color.barOrange;
+                break;
+            case "flat":
+                primaryColor = R.color.primaryGreen;
+                barColor = R.color.barGreen;
+                break;
+            default: //angry
+                primaryColor = R.color.primaryPink;
+                barColor = R.color.barPink;
+        }
+        linearLayoutBackground.setBackgroundColor(ContextCompat.getColor(getActivity(), primaryColor));
+        relativeLayoutBarOne.setBackgroundColor(ContextCompat.getColor(getActivity(), barColor));
+        linearLayoutBarTwo.setBackgroundColor(ContextCompat.getColor(getActivity(), barColor));
+    }
+
+    public void updateUI(Cuaca cuaca) {
+        textViewLokasi.setText(cuaca.getKota());
+        textViewDerajat.setText(String.valueOf(cuaca.getCurrentSuhu()));
+        textViewKelembaban.setText(String.valueOf(cuaca.getCurrentKelembaban()) + "%");
+
+        Context context = imageViewAwan.getContext();
+        int id = context.getResources().getIdentifier("icon_" + cuaca.getCurrentAwan() + "64",
+                "drawable", context.getPackageName());
+        imageViewAwan.setImageResource(id);
+
+        context = imageViewArahAngin.getContext();
+        // id = context.getResources().getIdentifier("icon_arrow_" + cuaca.getCurrentArahAngin(),
+                // "drawable", context.getPackageName());
+        // imageViewArahAngin.setImageResource(id);
+
+        textViewKecepatanAngin.setText(String.valueOf(cuaca.getCurrentKecepatanAngin()) + "m/s");
+
+        context = imageViewMood.getContext();
+        id = context.getResources().getIdentifier("icon_" + emotion + "48",
+                "drawable", context.getPackageName());
+        imageViewMood.setImageResource(id);
     }
 
     @Override
