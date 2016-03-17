@@ -1,5 +1,7 @@
 package com.tifaniwarnita.metsky;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +17,11 @@ import android.view.MenuItem;
 import com.firebase.client.Firebase;
 import com.tifaniwarnita.metsky.controllers.AuthenticationHandler;
 import com.tifaniwarnita.metsky.controllers.FirebaseConfig;
+import com.tifaniwarnita.metsky.controllers.MetSkySettings;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity implements SignUpFragment.SignUpFragmentListener,
         LoginFragment.LoginFragmentListener, CarouselFragment.CarouselFragmentListener,
@@ -22,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements SignUpFragment.Si
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme_Blue);
         super.onCreate(savedInstanceState);
 
         // Initialize Firebase library
@@ -30,14 +38,26 @@ public class MainActivity extends AppCompatActivity implements SignUpFragment.Si
         AuthenticationHandler.setActivity(this);
 
         setContentView(R.layout.activity_main);
+        MetSkySettings.initialize(this);
 
         // Initialize the fragment
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 
-        fm.beginTransaction()
-            .replace(R.id.fragment_container, new SignUpFragment())
-            .commit();
+
+        // Check whether there's a user's been logged in or not
+        if (!AuthenticationHandler.auth()) {
+            int emotion = MetSkySettings.getEmotion();
+            if (emotion != -1) {
+                goToMainScreen(emotion);
+            } else {
+                goToEmotionScreen();
+            }
+        } else {
+            fm.beginTransaction()
+                    .replace(R.id.fragment_container, new SignUpFragment())
+                    .commit();
+        }
 
     }
 
@@ -76,19 +96,11 @@ public class MainActivity extends AppCompatActivity implements SignUpFragment.Si
 
     @Override
     public void onLoginButtonPressed() {
-        //TODO: nanti harus diganti
-
         FragmentManager fm = getSupportFragmentManager();
-
-        /* fm.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                .replace(R.id.fragment_container, new LoginFragment())
-                .addToBackStack(null)
-                .commit(); */
 
         fm.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                .replace(R.id.fragment_container, new EmotionFragment())
+                .replace(R.id.fragment_container, new LoginFragment())
                 .addToBackStack(null)
                 .commit();
     }
@@ -96,18 +108,20 @@ public class MainActivity extends AppCompatActivity implements SignUpFragment.Si
     @Override
     public void onLoginSuccess() {
         FragmentManager fm = getSupportFragmentManager();
-
         fm.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
                 .replace(R.id.fragment_container, new CarouselFragment())
                 .addToBackStack(null)
                 .commit();
+        clearScreenStack();
     }
-
-    //TODO: SEMUA JENIS ADD TO BACKSTACK
 
     @Override
     public void onLanjutButtonPressed() {
+        goToEmotionScreen();
+    }
+
+    private void goToEmotionScreen() {
         FragmentManager fm = getSupportFragmentManager();
 
         fm.beginTransaction()
@@ -119,6 +133,11 @@ public class MainActivity extends AppCompatActivity implements SignUpFragment.Si
 
     @Override
     public void onEmotionSelected(int emotion) {
+        MetSkySettings.setEmotion(emotion);
+        goToMainScreen(emotion);
+    }
+
+    private void goToMainScreen(int emotion) {
         String param;
         switch (emotion) {
             case EmotionFragment.EMOTION_TWINK:
@@ -141,6 +160,11 @@ public class MainActivity extends AppCompatActivity implements SignUpFragment.Si
                 break;
         }
 
+        Intent intent = new Intent(this, MainActivity.class);
+        myActivity.setFlags(myActivity.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        startActivity(myActivity);
+
         FragmentManager fm = getSupportFragmentManager();
 
         fm.beginTransaction()
@@ -148,5 +172,14 @@ public class MainActivity extends AppCompatActivity implements SignUpFragment.Si
                 .replace(R.id.fragment_container, HomeFragment.newInstance(param))
                 .addToBackStack(null)
                 .commit();
+
+        clearScreenStack();
+    }
+
+    private void clearScreenStack() {
+        FragmentManager fm = getSupportFragmentManager();
+        for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
+            fm.popBackStack();
+        }
     }
 }

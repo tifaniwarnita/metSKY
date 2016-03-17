@@ -9,6 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -128,9 +130,18 @@ public class HomeFragment extends Fragment {
                 primaryColor = R.color.primaryPink;
                 barColor = R.color.barPink;
         }
-        linearLayoutBackground.setBackgroundColor(ContextCompat.getColor(getActivity(), primaryColor));
+        /* linearLayoutBackground.setBackgroundColor(ContextCompat.getColor(getActivity(), primaryColor));
         relativeLayoutBarOne.setBackgroundColor(ContextCompat.getColor(getActivity(), barColor));
         linearLayoutBarTwo.setBackgroundColor(ContextCompat.getColor(getActivity(), barColor));
+
+        // Change status bar color
+        Window window = getActivity().getWindow();
+        // clear FLAG_TRANSLUCENT_STATUS flag:
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        // finally change the color
+        window.setStatusBarColor(getResources().getColor(barColor));*/
     }
 
     public void updateUI(Cuaca cuaca) {

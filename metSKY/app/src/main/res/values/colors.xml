@@ -4,6 +4,14 @@
     <color name="colorPrimaryDark">#D65455</color>
     <color name="colorAccent">#EF675F</color>
 
+    <color name="colorPrimaryRed">#EF675F</color>
+    <color name="colorPrimaryDarkRed">#D65455</color>
+    <color name="colorAccentRed">#EF675F</color>
+
+    <color name="colorPrimaryBlue">#336699</color>
+    <color name="colorPrimaryDarkBlue">#375D80</color>
+    <color name="colorAccentBlue">#336699</color>
+
     <color name="darkRed">#D65455</color>
     <color name="red">#EF675F</color>
     <color name="white">#FFFFFF</color>
@@ -13,12 +21,6 @@
     <color name="barBlue">#375D80</color>
     <color name="barOrange">#D15630</color>
     <color name="barLightBlue">#4885A3</color>
-
-    <color name="bulletGreen">#077526</color>
-    <color name="bulletPink">#D65555</color>
-    <color name="bulletBlue">#375D80</color>
-    <color name="bulletOrange">#D15630</color>
-    <color name="bulletLightBlue">#4885A3</color>
 
     <color name="primaryGreen">#1D9E49</color>
     <color name="primaryPink">#EF675F</color>

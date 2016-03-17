@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 public class SplashActivity extends AppCompatActivity {
     private Intent myActivity;
+    private boolean done = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 finish();
+                done = true; //TODO EDIT
                 myActivity = new Intent(SplashActivity.this, MainActivity.class);
                 myActivity.setFlags(myActivity.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
