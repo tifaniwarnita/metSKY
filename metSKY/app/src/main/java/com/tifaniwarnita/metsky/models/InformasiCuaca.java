@@ -11,6 +11,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.tifaniwarnita.metsky.HomeFragment;
+import com.tifaniwarnita.metsky.WeatherInformationService;
+import com.tifaniwarnita.metsky.controllers.DatabaseHandler;
 import com.tifaniwarnita.metsky.controllers.WeatherMeteoXmlParser;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -30,17 +32,20 @@ public class InformasiCuaca {
     private Cuaca cuaca;
     private Activity activity;
     private HomeFragment homeFragment;
+    private WeatherInformationService weatherService;
 
     public InformasiCuaca() {
         // Empty constructor
     }
 
-    public InformasiCuaca(String latitude, String longitude, Activity activity, HomeFragment homeFragment) {
+    public InformasiCuaca(String latitude, String longitude, Activity activity,
+                          HomeFragment homeFragment, WeatherInformationService weatherService) {
         lokasi = new Location("");
         lokasi.setLatitude(Double.parseDouble(latitude));
         lokasi.setLongitude(Double.parseDouble(longitude));
         this.activity = activity;
         this.homeFragment = homeFragment;
+        this.weatherService = weatherService;
         getInformationFromServer();
     }
 
@@ -67,15 +72,28 @@ public class InformasiCuaca {
                                 System.out.println("Lat: " + cuaca.getLatitude());
                                 System.out.println("Lon: " + cuaca.getLongitude());
                                 System.out.println("Cuaca: " + cuaca.getCuaca());
-                                cuaca.parsingCuaca();
                                 cuaca.printCuaca();
-                                homeFragment.updateUI(cuaca);
+                                DatabaseHandler dbHandler = new DatabaseHandler(homeFragment.getContext());
+                                try {
+                                    dbHandler.createDB();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                dbHandler.insertCuaca(cuaca);
+
+                                try {
+                                    homeFragment.updateUI(cuaca);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
                             } catch (XmlPullParserException e) {
                                 e.printStackTrace();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
 
+                            weatherService.stopSelf();
                         }
                     }, new Response.ErrorListener() {
                 @Override

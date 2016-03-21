@@ -2,6 +2,7 @@ package com.tifaniwarnita.metsky;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,8 +18,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.tifaniwarnita.metsky.controllers.DatabaseHandler;
 import com.tifaniwarnita.metsky.models.Cuaca;
 import com.tifaniwarnita.metsky.models.InformasiCuaca;
+
+import java.io.IOException;
 
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 import rx.functions.Action1;
@@ -41,8 +45,10 @@ public class HomeFragment extends Fragment {
     private ImageView imageViewArahAngin;
     private TextView textViewKecepatanAngin;
     private ImageView imageViewMood;
+    private TextView textViewInfoWaktu;
 
     private InformasiCuaca informasiCuaca;
+    private Intent intent;
 
     public interface HomeFragmentListener {
 
@@ -85,63 +91,27 @@ public class HomeFragment extends Fragment {
         imageViewArahAngin = (ImageView) v.findViewById(R.id.home_imageview_arahangin);
         textViewKecepatanAngin = (TextView) v.findViewById(R.id.home_textview_kecepatanangin);
         imageViewMood = (ImageView) v.findViewById(R.id.home_imageview_mood);
-
-        // Update color based on mood
-        updateBackgroundColor();
+        textViewInfoWaktu = (TextView) v.findViewById(R.id.home_textview_infowaktu);
 
         final HomeFragment homeFragment = this;
+        final Activity homeActivity = getActivity();
 
-        ReactiveLocationProvider locationProvider = new ReactiveLocationProvider(getActivity());
-        locationProvider.getLastKnownLocation()
-                .subscribe(new Action1<Location>() {
-                    @Override
-                    public void call(Location location) {
-                        informasiCuaca = new InformasiCuaca(String.valueOf(location.getLatitude()),
-                                String.valueOf(location.getLongitude()), getActivity(), homeFragment);
-                    }
-                });
-
-
-        return v;
-    }
-
-    public void updateBackgroundColor() {
-        int primaryColor;
-        int barColor;
-
-        switch (emotion) {
-            case "twink":
-                primaryColor = R.color.primaryBlue;
-                barColor = R.color.barBlue;
-                break;
-            case "surprised":
-                primaryColor = R.color.primaryLightBlue;
-                barColor = R.color.barLightBlue;
-                break;
-            case "happy":
-                primaryColor = R.color.primaryOrange;
-                barColor = R.color.barOrange;
-                break;
-            case "flat":
-                primaryColor = R.color.primaryGreen;
-                barColor = R.color.barGreen;
-                break;
-            default: //angry
-                primaryColor = R.color.primaryPink;
-                barColor = R.color.barPink;
+        DatabaseHandler dbHandler = new DatabaseHandler(getContext());
+        try {
+            dbHandler.createDB();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        /* linearLayoutBackground.setBackgroundColor(ContextCompat.getColor(getActivity(), primaryColor));
-        relativeLayoutBarOne.setBackgroundColor(ContextCompat.getColor(getActivity(), barColor));
-        linearLayoutBarTwo.setBackgroundColor(ContextCompat.getColor(getActivity(), barColor));
 
-        // Change status bar color
-        Window window = getActivity().getWindow();
-        // clear FLAG_TRANSLUCENT_STATUS flag:
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        // finally change the color
-        window.setStatusBarColor(getResources().getColor(barColor));*/
+        dbHandler.openDB();
+        Cuaca cuaca = dbHandler.getCuaca();
+
+        updateUI(cuaca);
+        //updateUI(new Cuaca("Kucing", "99", "<table><tr style=\"font-size:9px;\"><td><b>Waktu</b></td><td><b>16-19</b></td><td><b>19-22</b></td><td><b>22-01</b></td><td><b>01-04</b></td><td><b>04-07</b></td><td><b>07-10</b></td><td><b>10-13</b></td><td><b>13-16</b></td></tr><tr><td>Suhu (&deg;C): </td><td>26</td><td>26</td><td>25</td><td>26</td><td>26</td><td>27</td><td>28</td><td>27</td></tr><tr><td>Kelembaban (%): </td><td>84</td><td>80</td><td>80</td><td>78</td><td>79</td><td>79</td><td>75</td><td>72</td></tr><tr><td>Kec. angin (m/s): </td><td>7</td><td>5</td><td>4</td><td>8</td><td>5</td><td>7</td><td>8</td><td>7</td></tr><tr><td>Arah angin: </td><td><img src=\"images/WSW.gif\" alt=\"BBD\" /></td><td><img src=\"images/SSW.gif\" alt=\"SBD\" /></td><td><img src=\"images/SW.gif\" alt=\"BD\" /></td><td><img src=\"images/W.gif\" alt=\"B\" /></td><td><img src=\"images/W.gif\" alt=\"B\" /></td><td><img src=\"images/WSW.gif\" alt=\"BBD\" /></td><td><img src=\"images/W.gif\" alt=\"B\" /></td><td><img src=\"images/WNW.gif\" alt=\"BBL\" /></td></tr><tr><td>Awan/Hujan: </td><td><img src=\"images/berawan.png\" alt=\"berawan\" /></td><td><img src=\"images/berawan.png\" alt=\"berawan\" /></td><td><img src=\"images/cerah_berawan_malam.png\" alt=\"cerah_berawan\" /></td><td><img src=\"images/hujan_ringan.png\" alt=\"hujan_ringan\" /></td><td><img src=\"images/hujan_ringan.png\" alt=\"hujan_ringan\" /></td><td><img src=\"images/hujan_ringan.png\" alt=\"hujan_ringan\" /></td><td><img src=\"images/cerah_siang.png\" alt=\"cerah\" /></td><td><img src=\"images/berawan.png\" alt=\"berawan\" /></td></tr></table><br />Dikeluarkan: Mon, 21 Mar 2016 13:00:02<br />Berlaku mulai: 21-03-2016 1600 WIB<br />Sumber: <a href=\"http://weather.meteo.itb.ac.id\">WCPL - Weather Forecast Table</a>", "-6.117428", "106.870008"));
+        intent = new Intent(getActivity(), WeatherInformationService.class);
+        WeatherInformationService.initialize(homeFragment, homeActivity);
+        getActivity().startService(intent);
+        return v;
     }
 
     public void updateUI(Cuaca cuaca) {
@@ -154,7 +124,7 @@ public class HomeFragment extends Fragment {
                 "drawable", context.getPackageName());
         imageViewAwan.setImageResource(id);
 
-        context = imageViewArahAngin.getContext();
+        context = imageViewArahAngin.getContext(); //TODO NUNGGU ANGIN
         // id = context.getResources().getIdentifier("icon_arrow_" + cuaca.getCurrentArahAngin(),
                 // "drawable", context.getPackageName());
         // imageViewArahAngin.setImageResource(id);
@@ -165,6 +135,8 @@ public class HomeFragment extends Fragment {
         id = context.getResources().getIdentifier("icon_" + emotion + "48",
                 "drawable", context.getPackageName());
         imageViewMood.setImageResource(id);
+
+        textViewInfoWaktu.setText("Dikeluarkan: " + cuaca.getDikeluarkan() + "\nBerlaku mulai: " + cuaca.getBerlaku());
     }
 
     @Override
@@ -182,6 +154,7 @@ public class HomeFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         homeFragmentListener = null;
+        getContext().stopService(intent);
     }
 
 }

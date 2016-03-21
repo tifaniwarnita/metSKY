@@ -7,7 +7,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 /**
  * Created by Tifani on 3/12/2016.
@@ -23,16 +30,30 @@ public class Cuaca {
     private ArrayList<Integer> kecepatanAngin = new ArrayList<>();
     private ArrayList<String> arahAngin = new ArrayList<>();
     private ArrayList<String> awan = new ArrayList<>();
-
+    private Date keluar;
+    private Date berlaku;
 
     public Cuaca(String kota, String level, String cuaca, Location location) {
         this.kota = kota;
         this.level = level;
         this.cuaca = cuaca;
         this.location = location;
+        parseCuaca();
+        parseTime();
     }
 
-    public void parsingCuaca() {
+    public Cuaca(String kota, String level, String cuaca, String latitude, String longitude) {
+        this.kota = kota;
+        this.level = level;
+        this.cuaca = cuaca;
+        this.location = new Location("");
+        this.location.setLatitude(Double.parseDouble(latitude));
+        this.location.setLongitude(Double.parseDouble(longitude));
+        parseCuaca();
+        parseTime();
+    }
+
+    public void parseCuaca() {
         Document doc = Jsoup.parse(cuaca);
         Elements tables = doc.select("table");
         for (Element table : tables) {
@@ -55,6 +76,30 @@ public class Cuaca {
                 }
             }
         }
+    }
+
+    private void parseTime() {
+        String[] firstSplit = cuaca.split("Dikeluarkan: ");
+        String[] secondSplit = firstSplit[1].split("<br />Berlaku mulai: ");
+        String[] thirdSplit = secondSplit[1].split("<br />Sumber: ");
+        String[] fourthSplit = thirdSplit[0].split(" WI");
+        String keluar = secondSplit[0];
+        String berlaku = fourthSplit[0].substring(0, fourthSplit[0].length()-2) + ":" +
+                fourthSplit[0].substring(fourthSplit[0].length() - 2, fourthSplit[0].length());
+        System.out.println("keluar: " + keluar);
+        System.out.println("berlaku: " + berlaku);
+
+        DateFormat formatKeluar = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss", Locale.ENGLISH);
+        DateFormat formatBerlaku = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.ENGLISH);
+        try {
+            this.keluar = formatKeluar.parse(keluar);
+            this.berlaku = formatBerlaku.parse(berlaku);
+            System.out.println("beres keluar: " + this.keluar);
+            System.out.println("beres berlaku: " + this.berlaku);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void printCuaca() {
@@ -110,23 +155,61 @@ public class Cuaca {
 
     // TODO: bukan 0
     public int getCurrentSuhu() {
-        return suhu.get(0);
+        return suhu.get(getCurrentWaktu());
     }
 
     public int getCurrentKelembaban() {
-        return kelembaban.get(0);
+        return kelembaban.get(getCurrentWaktu());
     }
 
     public int getCurrentKecepatanAngin() {
-        return kecepatanAngin.get(0);
+        return kecepatanAngin.get(getCurrentWaktu());
     }
 
     public String getCurrentArahAngin() {
-        return arahAngin.get(0);
+        return arahAngin.get(getCurrentWaktu());
     }
 
     public String getCurrentAwan() {
-        return awan.get(0);
+        return awan.get(getCurrentWaktu());
     }
 
+    private int getCurrentWaktu() {
+        Calendar calendar = new GregorianCalendar();
+        int hour = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE);
+        System.out.println("hour " + hour);
+        boolean found = false;
+        int i=0;
+        while(!found && i<waktu.size()) {
+            String[] splitHour = waktu.get(i).split("-");
+            if((hour >= Integer.parseInt(splitHour[0])*60 && hour <= Integer.parseInt(splitHour[1])*60) ||
+                    (hour >= Integer.parseInt(splitHour[0])*60 && hour >= Integer.parseInt(splitHour[1])*60 &&
+                            Integer.parseInt(splitHour[0]) > Integer.parseInt(splitHour[1])) ||
+                    (hour <= Integer.parseInt(splitHour[0])*60 && hour <= Integer.parseInt(splitHour[1])*60 &&
+                            Integer.parseInt(splitHour[0]) > Integer.parseInt(splitHour[1]))) {
+                found = true;
+                System.out.println(Integer.parseInt(splitHour[0])*60 + "-" + Integer.parseInt(splitHour[1])*60);
+                System.out.println("now: " + hour);
+            } else {
+                i++;
+            }
+        }
+        if (!found) i--;
+        System.out.println(i);
+        return i;
+    }
+
+    public String getDikeluarkan() {
+        DateFormat formatKeluar = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss", Locale.ENGLISH);
+        return formatKeluar.format(this.keluar);
+    }
+
+    public String getBerlaku() {
+        DateFormat formatBerlaku = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+        String waktuBerlaku = formatBerlaku.format(this.berlaku);
+        String[] splitHour = waktu.get(getCurrentWaktu()).split("-");
+        waktuBerlaku = waktuBerlaku + " " + Integer.parseInt(splitHour[0])
+                + ".00-" + Integer.parseInt(splitHour[1]) + ".00";
+        return waktuBerlaku;
+    }
 }
