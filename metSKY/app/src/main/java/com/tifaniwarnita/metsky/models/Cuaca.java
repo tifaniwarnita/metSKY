@@ -93,13 +93,23 @@ public class Cuaca {
         DateFormat formatBerlaku = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.ENGLISH);
         try {
             this.keluar = formatKeluar.parse(keluar);
-            this.berlaku = formatBerlaku.parse(berlaku);
             System.out.println("beres keluar: " + this.keluar);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        try {
+            this.berlaku = formatBerlaku.parse(berlaku);
+            Calendar calendarBerlaku = new GregorianCalendar();
+            calendarBerlaku.setTime(this.berlaku);
+            String[] splitHour = waktu.get(getCurrentWaktu()).split("-");
+            if (Integer.parseInt(splitHour[0])<16) {
+                calendarBerlaku.add(Calendar.DATE, 1);
+                this.berlaku = new Date(calendarBerlaku.getTimeInMillis());
+            }
             System.out.println("beres berlaku: " + this.berlaku);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
     }
 
     public void printCuaca() {
@@ -200,16 +210,24 @@ public class Cuaca {
     }
 
     public String getDikeluarkan() {
-        DateFormat formatKeluar = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss", Locale.ENGLISH);
-        return formatKeluar.format(this.keluar);
+        if(this.keluar != null) {
+            DateFormat formatKeluar = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss", Locale.ENGLISH);
+            return formatKeluar.format(this.keluar);
+        } else {
+            return "";
+        }
     }
 
     public String getBerlaku() {
-        DateFormat formatBerlaku = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
-        String waktuBerlaku = formatBerlaku.format(this.berlaku);
-        String[] splitHour = waktu.get(getCurrentWaktu()).split("-");
-        waktuBerlaku = waktuBerlaku + " " + Integer.parseInt(splitHour[0])
-                + ".00-" + Integer.parseInt(splitHour[1]) + ".00";
-        return waktuBerlaku;
+        if (this.berlaku != null) {
+            DateFormat formatBerlaku = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
+            String waktuBerlaku = formatBerlaku.format(this.berlaku);
+            String[] splitHour = waktu.get(getCurrentWaktu()).split("-");
+            waktuBerlaku = waktuBerlaku + " " + Integer.parseInt(splitHour[0])
+                    + ".00-" + Integer.parseInt(splitHour[1]) + ".00";
+            return waktuBerlaku;
+        } else {
+            return "";
+        }
     }
 }

@@ -77,8 +77,20 @@
         <item name="baseColor">@color/colorPrimaryRed</item>
         <item name="baseDarkColor">@color/colorPrimaryDarkRed</item>
     </style>
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- Support library compatibility -->
+        <item name="windowActionBarOverlay">@null</item>
+        <item name="elevation">0dp</item>
+    </style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- Support library compatibility -->
+        <item name="windowActionBarOverlay">@null</item>
+        <item name="elevation">0dp</item>
+    </style>
     <style name="FormInputLabel" parent="TextAppearance.AppCompat">
         <!-- Hint color and label color in FALSE state -->
         <item name="android:textColorHint">#B3FFFFFF</item>

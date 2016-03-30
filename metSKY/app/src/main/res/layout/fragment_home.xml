@@ -7,12 +7,6 @@
     android:orientation="vertical"
     tools:context="com.tifaniwarnita.metsky.HomeFragment">
 
-    <ImageButton
-        android:id="@+id/home_imagebutton_hamburger"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_more"/>
-
     <ImageView
         android:id="@+id/signup_logo_splash_metsky"
         android:layout_width="match_parent"
@@ -231,6 +225,34 @@
             </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.daimajia.slider.library.SliderLayout
+                android:id="@+id/home_carouselslider"
+                android:layout_width="match_parent"
+                android:layout_height="250dp" />
+
+            <com.daimajia.slider.library.Indicators.PagerIndicator
+                android:id="@+id/home_customindicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                selected_color="?baseColor"
+                unselected_color="#FFFFFF"
+                shape="oval"
+                selected_padding_left="3dp"
+                selected_padding_right="3dp"
+                unselected_padding_left="3dp"
+                unselected_padding_right="3dp"
+                selected_width="8dp"
+                selected_height="8dp"
+                unselected_width="4dp"
+                unselected_height="4dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
