@@ -230,4 +230,26 @@ public class Cuaca {
             return "";
         }
     }
+
+    public ArrayList<ArrayList<String>> getSixAwanWaktu() {
+        ArrayList<ArrayList<String>> ret = new ArrayList<>();
+        int waktuAwal = getCurrentWaktu();
+        int waktuAkhir = waktuAwal + 5;
+        if (waktuAkhir >= waktu.size()) {
+            waktuAkhir = waktu.size()-2;
+            waktuAwal = waktuAkhir - 5;
+        }
+        try {
+            for(int i=waktuAwal; i<=waktuAkhir; i++) {
+                ArrayList<String> waktuAwan = new ArrayList<>();
+                waktuAwan.add(waktu.get(i));
+                waktuAwan.add(awan.get(i));
+                ret.add(waktuAwan);
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // idx out of bound
+            return ret;
+        }
+        return ret;
+    }
 }

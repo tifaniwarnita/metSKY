@@ -1,5 +1,6 @@
 package com.tifaniwarnita.metsky;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,8 +15,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.tifaniwarnita.metsky.controllers.CameraController;
 import com.tifaniwarnita.metsky.controllers.MetSkySettings;
+import com.tifaniwarnita.metsky.views.HomeCarouselCameraView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HomeFragment.HomeFragmentListener {
@@ -91,18 +95,19 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camara) {
+        if (id == R.id.nav_laporkan) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_ubah_lokasi) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_kenali_awan) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_umpan_balik) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_bagikan) {
 
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_profil) {
+            Toast.makeText(getApplicationContext(), "Profil",
+                    Toast.LENGTH_LONG).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -131,5 +136,17 @@ public class MainActivity extends AppCompatActivity
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CameraController.REQUEST_TAKE_PHOTO) {
+            CameraController.onCameraResult(this, requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    public void onCameraButtonClicked() {
+        CameraController.dispatchTakePictureIntent(this);
     }
 }

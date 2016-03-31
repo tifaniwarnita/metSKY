@@ -228,12 +228,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <com.daimajia.slider.library.SliderLayout
                 android:id="@+id/home_carouselslider"
                 android:layout_width="match_parent"
-                android:layout_height="250dp" />
+                android:layout_height="200dp" />
 
             <com.daimajia.slider.library.Indicators.PagerIndicator
                 android:id="@+id/home_customindicator"

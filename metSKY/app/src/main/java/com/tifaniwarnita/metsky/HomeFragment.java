@@ -3,29 +3,27 @@ package com.tifaniwarnita.metsky;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.daimajia.slider.library.Animations.DescriptionAnimation;
+import com.daimajia.slider.library.Indicators.PagerIndicator;
+import com.daimajia.slider.library.SliderLayout;
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.tifaniwarnita.metsky.controllers.DatabaseHandler;
 import com.tifaniwarnita.metsky.models.Cuaca;
-import com.tifaniwarnita.metsky.models.InformasiCuaca;
+import com.tifaniwarnita.metsky.views.HomeCarouselCameraView;
+import com.tifaniwarnita.metsky.views.HomeCarouselGraphView;
+import com.tifaniwarnita.metsky.views.HomeCarouselWeatherView;
 
 import java.io.IOException;
-
-import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
-import rx.functions.Action1;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class HomeFragment extends Fragment {
@@ -35,9 +33,6 @@ public class HomeFragment extends Fragment {
     private String emotion = "";
 
     private HomeFragmentListener homeFragmentListener;
-    private LinearLayout linearLayoutBackground;
-    private RelativeLayout relativeLayoutBarOne;
-    private LinearLayout linearLayoutBarTwo;
     private TextView textViewLokasi;
     private TextView textViewDerajat;
     private TextView textViewKelembaban;
@@ -46,12 +41,13 @@ public class HomeFragment extends Fragment {
     private TextView textViewKecepatanAngin;
     private ImageView imageViewMood;
     private TextView textViewInfoWaktu;
+    private SliderLayout slider;
+    HomeCarouselWeatherView carouselWeatherView = null;
 
-    private InformasiCuaca informasiCuaca;
     private Intent intent;
 
     public interface HomeFragmentListener {
-
+        public void onCameraButtonClicked();
     }
 
     public static HomeFragment newInstance(String emotion) {
@@ -81,9 +77,6 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_home, container, false);
 
-        linearLayoutBackground = (LinearLayout) v.findViewById(R.id.home_background);
-        relativeLayoutBarOne = (RelativeLayout) v.findViewById(R.id.home_bar_one);
-        linearLayoutBarTwo = (LinearLayout) v.findViewById(R.id.home_bar_two);
         textViewLokasi = (TextView) v.findViewById(R.id.home_textview_lokasi);
         textViewDerajat = (TextView) v.findViewById(R.id.home_textview_derajat);
         textViewKelembaban = (TextView) v.findViewById(R.id.home_textview_kelembaban);
@@ -107,7 +100,30 @@ public class HomeFragment extends Fragment {
         Cuaca cuaca = dbHandler.getCuaca();
 
         updateUI(cuaca);
-        //updateUI(new Cuaca("Kucing", "99", "<table><tr style=\"font-size:9px;\"><td><b>Waktu</b></td><td><b>16-19</b></td><td><b>19-22</b></td><td><b>22-01</b></td><td><b>01-04</b></td><td><b>04-07</b></td><td><b>07-10</b></td><td><b>10-13</b></td><td><b>13-16</b></td></tr><tr><td>Suhu (&deg;C): </td><td>26</td><td>26</td><td>25</td><td>26</td><td>26</td><td>27</td><td>28</td><td>27</td></tr><tr><td>Kelembaban (%): </td><td>84</td><td>80</td><td>80</td><td>78</td><td>79</td><td>79</td><td>75</td><td>72</td></tr><tr><td>Kec. angin (m/s): </td><td>7</td><td>5</td><td>4</td><td>8</td><td>5</td><td>7</td><td>8</td><td>7</td></tr><tr><td>Arah angin: </td><td><img src=\"images/WSW.gif\" alt=\"BBD\" /></td><td><img src=\"images/SSW.gif\" alt=\"SBD\" /></td><td><img src=\"images/SW.gif\" alt=\"BD\" /></td><td><img src=\"images/W.gif\" alt=\"B\" /></td><td><img src=\"images/W.gif\" alt=\"B\" /></td><td><img src=\"images/WSW.gif\" alt=\"BBD\" /></td><td><img src=\"images/W.gif\" alt=\"B\" /></td><td><img src=\"images/WNW.gif\" alt=\"BBL\" /></td></tr><tr><td>Awan/Hujan: </td><td><img src=\"images/berawan.png\" alt=\"berawan\" /></td><td><img src=\"images/berawan.png\" alt=\"berawan\" /></td><td><img src=\"images/cerah_berawan_malam.png\" alt=\"cerah_berawan\" /></td><td><img src=\"images/hujan_ringan.png\" alt=\"hujan_ringan\" /></td><td><img src=\"images/hujan_ringan.png\" alt=\"hujan_ringan\" /></td><td><img src=\"images/hujan_ringan.png\" alt=\"hujan_ringan\" /></td><td><img src=\"images/cerah_siang.png\" alt=\"cerah\" /></td><td><img src=\"images/berawan.png\" alt=\"berawan\" /></td></tr></table><br />Dikeluarkan: Mon, 21 Mar 2016 13:00:02<br />Berlaku mulai: 21-03-2016 1600 WIB<br />Sumber: <a href=\"http://weather.meteo.itb.ac.id\">WCPL - Weather Forecast Table</a>", "-6.117428", "106.870008"));
+
+        slider = (SliderLayout) v.findViewById(R.id.home_carouselslider);
+        List<BaseSliderView> carouselObject = new ArrayList<>();
+        carouselObject.add(new HomeCarouselGraphView(getActivity()));
+        carouselWeatherView = new HomeCarouselWeatherView(getActivity(), cuaca);
+        carouselObject.add(carouselWeatherView);
+        HomeCarouselCameraView carouselCameraView = new HomeCarouselCameraView(getActivity());
+//        carouselCameraView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+//            @Override
+//            public void onSliderClick(BaseSliderView slider) {
+//                homeFragmentListener.onCameraButtonClicked();
+//            }
+//        });
+        carouselObject.add(carouselCameraView);
+
+        for(int i=0; i<carouselObject.size(); i++){
+            // initialize a SliderLayout
+            slider.addSlider(carouselObject.get(i));
+            slider.setPresetTransformer(SliderLayout.Transformer.FlipHorizontal);
+            slider.setCustomIndicator((PagerIndicator) v.findViewById(R.id.home_customindicator));
+        }
+
+        slider.stopAutoCycle();
+
         intent = new Intent(getActivity(), WeatherInformationService.class);
         WeatherInformationService.initialize(homeFragment, homeActivity);
         getActivity().startService(intent);
@@ -137,6 +153,10 @@ public class HomeFragment extends Fragment {
         imageViewMood.setImageResource(id);
 
         textViewInfoWaktu.setText("Dikeluarkan: " + cuaca.getDikeluarkan() + "\nBerlaku mulai: " + cuaca.getBerlaku());
+
+        if(carouselWeatherView != null) {
+            carouselWeatherView.updateAwanWaktu(cuaca);
+        }
     }
 
     @Override

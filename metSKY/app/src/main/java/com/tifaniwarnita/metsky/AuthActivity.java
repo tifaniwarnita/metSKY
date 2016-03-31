@@ -16,7 +16,7 @@ import com.tifaniwarnita.metsky.controllers.MetSkySettings;
 
 public class AuthActivity extends AppCompatActivity implements SignUpFragment.SignUpFragmentListener,
         LoginFragment.LoginFragmentListener, CarouselFragment.CarouselFragmentListener,
-        EmotionFragment.EmotionFragmentListener, HomeFragment.HomeFragmentListener {
+        EmotionFragment.EmotionFragmentListener {
     public static final String SIGN_UP = "sign up";
     public static final String EMOTION = "emotion";
 
@@ -141,45 +141,6 @@ public class AuthActivity extends AppCompatActivity implements SignUpFragment.Si
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         startActivity(intent);
     }
-
-    /* private void goToMainScreen(int emotion) {
-        String param;
-        switch (emotion) {
-            case EmotionFragment.EMOTION_TWINK:
-                param = "twink";
-                break;
-            case EmotionFragment.EMOTION_SURPRISED:
-                param = "surprised";
-                break;
-            case EmotionFragment.EMOTION_HAPPY:
-                param = "happy";
-                break;
-            case EmotionFragment.EMOTION_FLAT:
-                param = "flat";
-                break;
-            case EmotionFragment.EMOTION_ANGRY:
-                param = "angry";
-                break;
-            default:
-                param = "";
-                break;
-        }
-
-        Intent intent = new Intent(this, AuthActivity.class);
-        // myActivity.setFlags(myActivity.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
-        // overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        // startActivity(myActivity);
-
-        FragmentManager fm = getSupportFragmentManager();
-
-        fm.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                .replace(R.id.auth_fragment_container, HomeFragment.newInstance(param))
-                .addToBackStack(null)
-                .commit();
-
-        clearScreenStack();
-    } */
 
     private void clearScreenStack() {
         FragmentManager fm = getSupportFragmentManager();
