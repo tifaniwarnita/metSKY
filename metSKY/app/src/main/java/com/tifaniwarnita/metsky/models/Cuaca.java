@@ -61,18 +61,18 @@ public class Cuaca {
             for (int i = 0; i < 4; i++) {
                 Elements tds = trs.get(i).select("td");
                 for (int j = 1; j < tds.size(); j++) {
-                    if (i == 0) waktu.add(tds.get(j).text());
-                    else if (i == 1) suhu.add((int) Float.parseFloat(tds.get(j).text()));
-                    else if (i == 2) kelembaban.add((int) Float.parseFloat(tds.get(j).text()));
-                    else if (i == 3) kecepatanAngin.add((int) Float.parseFloat(tds.get(j).text()));
+                    if (i == 0) getWaktu().add(tds.get(j).text());
+                    else if (i == 1) getSuhu().add((int) Float.parseFloat(tds.get(j).text()));
+                    else if (i == 2) getKelembaban().add((int) Float.parseFloat(tds.get(j).text()));
+                    else if (i == 3) getKecepatanAngin().add((int) Float.parseFloat(tds.get(j).text()));
                 }
             }
             for (int i = 4; i < trs.size(); i++) {
                 Elements tds = trs.get(i).select("td");
                 for (int j = 1; j < tds.size(); j++) {
                     Elements img = tds.get(j).select("img");
-                    if (i == 4) arahAngin.add(img.attr("src").replace("images/", "").replace(".gif", ""));
-                    else if (i == 5) awan.add(img.attr("src").replace("images/", "").replace(".png", ""));
+                    if (i == 4) getArahAngin().add(img.attr("src").replace("images/", "").replace(".gif", ""));
+                    else if (i == 5) getAwan().add(img.attr("src").replace("images/", "").replace(".png", ""));
                 }
             }
         }
@@ -93,7 +93,7 @@ public class Cuaca {
         DateFormat formatBerlaku = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.ENGLISH);
         try {
             this.keluar = formatKeluar.parse(keluar);
-            System.out.println("beres keluar: " + this.keluar);
+            System.out.println("beres keluar: " + this.getKeluar());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -101,7 +101,7 @@ public class Cuaca {
             this.berlaku = formatBerlaku.parse(berlaku);
             Calendar calendarBerlaku = new GregorianCalendar();
             calendarBerlaku.setTime(this.berlaku);
-            String[] splitHour = waktu.get(getCurrentWaktu()).split("-");
+            String[] splitHour = getWaktu().get(getCurrentWaktu()).split("-");
             if (Integer.parseInt(splitHour[0])<16) {
                 calendarBerlaku.add(Calendar.DATE, 1);
                 this.berlaku = new Date(calendarBerlaku.getTimeInMillis());
@@ -114,28 +114,28 @@ public class Cuaca {
 
     public void printCuaca() {
         System.out.println("Waktu");
-        for (int i=0; i<waktu.size(); i++) {
-            System.out.println(waktu.get(i));
+        for (int i=0; i< getWaktu().size(); i++) {
+            System.out.println(getWaktu().get(i));
         }
         System.out.println("Suhu");
-        for (int i=0; i<suhu.size(); i++) {
-            System.out.println(suhu.get(i));
+        for (int i=0; i< getSuhu().size(); i++) {
+            System.out.println(getSuhu().get(i));
         }
         System.out.println("Kelembaban");
-        for (int i=0; i<kelembaban.size(); i++) {
-            System.out.println(kelembaban.get(i));
+        for (int i=0; i< getKelembaban().size(); i++) {
+            System.out.println(getKelembaban().get(i));
         }
         System.out.println("Kecepatan Angin");
-        for (int i=0; i<kecepatanAngin.size(); i++) {
-            System.out.println(kecepatanAngin.get(i));
+        for (int i=0; i< getKecepatanAngin().size(); i++) {
+            System.out.println(getKecepatanAngin().get(i));
         }
         System.out.println("Arah Angin");
-        for (int i=0; i<arahAngin.size(); i++) {
-            System.out.println(arahAngin.get(i));
+        for (int i=0; i< getArahAngin().size(); i++) {
+            System.out.println(getArahAngin().get(i));
         }
         System.out.println("Awan");
-        for (int i=0; i<awan.size(); i++) {
-            System.out.println(awan.get(i));
+        for (int i=0; i< getAwan().size(); i++) {
+            System.out.println(getAwan().get(i));
         }
     }
 
@@ -163,25 +163,24 @@ public class Cuaca {
         return location;
     }
 
-    // TODO: bukan 0
     public int getCurrentSuhu() {
-        return suhu.get(getCurrentWaktu());
+        return getSuhu().get(getCurrentWaktu());
     }
 
     public int getCurrentKelembaban() {
-        return kelembaban.get(getCurrentWaktu());
+        return getKelembaban().get(getCurrentWaktu());
     }
 
     public int getCurrentKecepatanAngin() {
-        return kecepatanAngin.get(getCurrentWaktu());
+        return getKecepatanAngin().get(getCurrentWaktu());
     }
 
     public String getCurrentArahAngin() {
-        return arahAngin.get(getCurrentWaktu());
+        return getArahAngin().get(getCurrentWaktu());
     }
 
     public String getCurrentAwan() {
-        return awan.get(getCurrentWaktu());
+        return getAwan().get(getCurrentWaktu());
     }
 
     private int getCurrentWaktu() {
@@ -190,8 +189,8 @@ public class Cuaca {
         System.out.println("hour " + hour);
         boolean found = false;
         int i=0;
-        while(!found && i<waktu.size()) {
-            String[] splitHour = waktu.get(i).split("-");
+        while(!found && i< getWaktu().size()) {
+            String[] splitHour = getWaktu().get(i).split("-");
             if((hour >= Integer.parseInt(splitHour[0])*60 && hour <= Integer.parseInt(splitHour[1])*60) ||
                     (hour >= Integer.parseInt(splitHour[0])*60 && hour >= Integer.parseInt(splitHour[1])*60 &&
                             Integer.parseInt(splitHour[0]) > Integer.parseInt(splitHour[1])) ||
@@ -210,9 +209,9 @@ public class Cuaca {
     }
 
     public String getDikeluarkan() {
-        if(this.keluar != null) {
+        if(this.getKeluar() != null) {
             DateFormat formatKeluar = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss", Locale.ENGLISH);
-            return formatKeluar.format(this.keluar);
+            return formatKeluar.format(this.getKeluar());
         } else {
             return "";
         }
@@ -222,7 +221,7 @@ public class Cuaca {
         if (this.berlaku != null) {
             DateFormat formatBerlaku = new SimpleDateFormat("dd-MM-yyyy", Locale.ENGLISH);
             String waktuBerlaku = formatBerlaku.format(this.berlaku);
-            String[] splitHour = waktu.get(getCurrentWaktu()).split("-");
+            String[] splitHour = getWaktu().get(getCurrentWaktu()).split("-");
             waktuBerlaku = waktuBerlaku + " " + Integer.parseInt(splitHour[0])
                     + ".00-" + Integer.parseInt(splitHour[1]) + ".00";
             return waktuBerlaku;
@@ -235,15 +234,15 @@ public class Cuaca {
         ArrayList<ArrayList<String>> ret = new ArrayList<>();
         int waktuAwal = getCurrentWaktu();
         int waktuAkhir = waktuAwal + 5;
-        if (waktuAkhir >= waktu.size()) {
-            waktuAkhir = waktu.size()-2;
+        if (waktuAkhir >= getWaktu().size()) {
+            waktuAkhir = getWaktu().size()-2;
             waktuAwal = waktuAkhir - 5;
         }
         try {
             for(int i=waktuAwal; i<=waktuAkhir; i++) {
                 ArrayList<String> waktuAwan = new ArrayList<>();
-                waktuAwan.add(waktu.get(i));
-                waktuAwan.add(awan.get(i));
+                waktuAwan.add(getWaktu().get(i));
+                waktuAwan.add(getAwan().get(i));
                 ret.add(waktuAwan);
             }
         } catch (Exception e) {
@@ -251,5 +250,37 @@ public class Cuaca {
             return ret;
         }
         return ret;
+    }
+
+    public ArrayList<String> getWaktu() {
+        return waktu;
+    }
+
+    public ArrayList<Integer> getSuhu() {
+        return suhu;
+    }
+
+    public ArrayList<Integer> getKelembaban() {
+        return kelembaban;
+    }
+
+    public ArrayList<Integer> getKecepatanAngin() {
+        return kecepatanAngin;
+    }
+
+    public ArrayList<String> getArahAngin() {
+        return arahAngin;
+    }
+
+    public ArrayList<String> getAwan() {
+        return awan;
+    }
+
+    public Date getKeluar() {
+        return keluar;
+    }
+
+    public Date getDateBerlaku() {
+        return berlaku;
     }
 }

@@ -39,6 +39,7 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.daimajia.slider:library:1.1.5@aar'
     compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'fr.avianey.com.viewpagerindicator:library:2.4.1.1@aar'
     compile 'org.jsoup:jsoup:1.8.3'
 
 }

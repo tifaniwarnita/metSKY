@@ -5,6 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +21,12 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.tifaniwarnita.metsky.controllers.DatabaseHandler;
 import com.tifaniwarnita.metsky.models.Cuaca;
+import com.tifaniwarnita.metsky.models.CuacaSerializable;
 import com.tifaniwarnita.metsky.views.HomeCarouselCameraView;
 import com.tifaniwarnita.metsky.views.HomeCarouselGraphView;
 import com.tifaniwarnita.metsky.views.HomeCarouselWeatherView;
+import com.viewpagerindicator.CirclePageIndicator;
+import com.viewpagerindicator.TitlePageIndicator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,7 +48,10 @@ public class HomeFragment extends Fragment {
     private TextView textViewKecepatanAngin;
     private ImageView imageViewMood;
     private TextView textViewInfoWaktu;
+    private ViewPager viewPager;
+    private ViewPagerAdapter adapter;
     private SliderLayout slider;
+    private Cuaca cuaca;
     HomeCarouselWeatherView carouselWeatherView = null;
 
     private Intent intent;
@@ -97,37 +107,57 @@ public class HomeFragment extends Fragment {
         }
 
         dbHandler.openDB();
-        Cuaca cuaca = dbHandler.getCuaca();
+        cuaca = dbHandler.getCuaca();
+
+        viewPager = (ViewPager) v.findViewById(R.id.home_carousel_viewpager);
+        setupViewPager(viewPager, cuaca);
+        //Bind the title indicator to the adapter
+        CirclePageIndicator circlePageIndicator = (CirclePageIndicator) v.findViewById(R.id.home_carousel_pageindicator);
+        circlePageIndicator.setViewPager(viewPager);
 
         updateUI(cuaca);
-
-        slider = (SliderLayout) v.findViewById(R.id.home_carouselslider);
-        List<BaseSliderView> carouselObject = new ArrayList<>();
-        carouselObject.add(new HomeCarouselGraphView(getActivity()));
-        carouselWeatherView = new HomeCarouselWeatherView(getActivity(), cuaca);
-        carouselObject.add(carouselWeatherView);
-        HomeCarouselCameraView carouselCameraView = new HomeCarouselCameraView(getActivity());
-//        carouselCameraView.setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
-//            @Override
-//            public void onSliderClick(BaseSliderView slider) {
-//                homeFragmentListener.onCameraButtonClicked();
-//            }
-//        });
-        carouselObject.add(carouselCameraView);
-
-        for(int i=0; i<carouselObject.size(); i++){
-            // initialize a SliderLayout
-            slider.addSlider(carouselObject.get(i));
-            slider.setPresetTransformer(SliderLayout.Transformer.FlipHorizontal);
-            slider.setCustomIndicator((PagerIndicator) v.findViewById(R.id.home_customindicator));
-        }
-
-        slider.stopAutoCycle();
 
         intent = new Intent(getActivity(), WeatherInformationService.class);
         WeatherInformationService.initialize(homeFragment, homeActivity);
         getActivity().startService(intent);
         return v;
+    }
+
+    private void setupViewPager(ViewPager viewPager, Cuaca cuaca) {
+        adapter = new ViewPagerAdapter(getChildFragmentManager());
+        adapter.addFragment(new CarouselGraphFragment(), "graph");
+        adapter.addFragment(CarouselWeatherPredictionFragment.newInstance(new CuacaSerializable(cuaca)), "weather_prediction");
+        adapter.addFragment(new CarouselCameraFragment(), "camera");
+        viewPager.setAdapter(adapter);
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<android.support.v4.app.Fragment> mFragmentList = new ArrayList<>();
+        private final List<String> mFragmentTitleList = new ArrayList<>();
+
+        public ViewPagerAdapter(FragmentManager manager) {
+            super(manager);
+        }
+
+        @Override
+        public android.support.v4.app.Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        public void addFragment(android.support.v4.app.Fragment fragment, String title) {
+            mFragmentList.add(fragment);
+            mFragmentTitleList.add(title);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return mFragmentTitleList.get(position);
+        }
     }
 
     public void updateUI(Cuaca cuaca) {
@@ -156,6 +186,13 @@ public class HomeFragment extends Fragment {
 
         if(carouselWeatherView != null) {
             carouselWeatherView.updateAwanWaktu(cuaca);
+        }
+    }
+
+    private void updateWeatherPrediction(Cuaca cuaca) {
+        if (adapter.getItem(1) != null) { //weather prediction
+            CarouselWeatherPredictionFragment fragment = (CarouselWeatherPredictionFragment) adapter.getItem(1);
+            fragment.updateAwanWaktu(new CuacaSerializable(cuaca));
         }
     }
 
