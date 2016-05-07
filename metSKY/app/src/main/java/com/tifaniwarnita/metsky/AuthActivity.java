@@ -2,17 +2,14 @@ package com.tifaniwarnita.metsky;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.firebase.client.Firebase;
 import com.tifaniwarnita.metsky.controllers.AuthenticationHandler;
-import com.tifaniwarnita.metsky.controllers.FirebaseConfig;
-import com.tifaniwarnita.metsky.controllers.MetSkySettings;
+import com.tifaniwarnita.metsky.controllers.MetSkyPreferences;
 
 public class AuthActivity extends AppCompatActivity implements SignUpFragment.SignUpFragmentListener,
         LoginFragment.LoginFragmentListener, CarouselFragment.CarouselFragmentListener,
@@ -26,7 +23,7 @@ public class AuthActivity extends AppCompatActivity implements SignUpFragment.Si
         super.onCreate(savedInstanceState);
 
         AuthenticationHandler.setActivity(this);
-        MetSkySettings.initialize(this);
+        MetSkyPreferences.initialize(this);
 
         setContentView(R.layout.activity_auth);
 
@@ -83,6 +80,8 @@ public class AuthActivity extends AppCompatActivity implements SignUpFragment.Si
 
         fm.beginTransaction()
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                /*.setCustomAnimations(R.anim.slide_in_from_right, 0,
+                        R.anim.slide_out_to_left, 0)*/ //TODO: animation?
                 .replace(R.id.auth_fragment_container, new LoginFragment())
                 .addToBackStack(null)
                 .commit();
@@ -113,7 +112,7 @@ public class AuthActivity extends AppCompatActivity implements SignUpFragment.Si
 
     @Override
     public void onEmotionSelected(int emotion) {
-        MetSkySettings.setEmotion(emotion);
+        MetSkyPreferences.setEmotion(getApplicationContext(), emotion);
         String param;
         switch (emotion) {
             case EmotionFragment.EMOTION_TWINK:

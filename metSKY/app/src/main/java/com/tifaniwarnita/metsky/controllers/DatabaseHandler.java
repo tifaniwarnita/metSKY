@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.tifaniwarnita.metsky.models.Awan;
 import com.tifaniwarnita.metsky.models.Cuaca;
 
 import java.io.FileOutputStream;
@@ -30,6 +31,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     // All Static variables
     // Tables' name
     private static final String TABLE_CUACA = "cuaca";
+    private static final String TABLE_JENIS_AWAN = "jenis_awan";
+    private static final String TABLE_AWAN = "awan";
 
     // Cuaca table column names
     private static final String CUACA_KEY_ID = "_id";
@@ -38,6 +41,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String CUACA_CUACA = "cuaca_content";
     private static final String CUACA_LATITUDE = "latitude";
     private static final String CUACA_LONGITUDE = "longitude";
+
+    // Jenis awan table column names
+    private static final String JENIS_AWAN_KEY_ID = "_id";
+    private static final String JENIS_AWAN_NAMA = "nama";
+
+    // Awan table column names
+    private static final String AWAN_KEY_ID = "_id";
+    private static final String AWAN_JENIS_AWAN = "jenis_awan_id";
+    private static final String AWAN_NAMA = "nama";
+    private static final String AWAN_DESKRIPSI_SINGKAT = "deskripsi_singkat";
+    private static final String AWAN_KETINGGIAN = "ketinggian";
+    private static final String AWAN_BENTUK = "bentuk";
+    private static final String AWAN_NAMA_LATIN = "nama_latin";
+    private static final String AWAN_PRESPITASI = "prespitasi";
+    private static final String AWAN_DESKRIPSI_LENGKAP = "deskripsi_lengkap";
+    private static final String AWAN_SUMBER_GAMBAR = "sumber_gambar";
 
     private static final String FIXED_ID = "1";
 
@@ -189,6 +208,89 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             }
         }
         return arrTblNames;
+    }
+
+    public int getJenisAwanId(String jenisAwan) {
+        int jenisAwanId = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + JENIS_AWAN_KEY_ID +
+                " FROM " + TABLE_JENIS_AWAN +
+                " WHERE " + JENIS_AWAN_NAMA + " = ?";
+        System.out.println(query);
+        Cursor c;
+
+        try {
+            c = db.rawQuery(query, new String[] {jenisAwan});
+            if (c==null) return jenisAwanId;
+
+            c.moveToFirst();
+            jenisAwanId = c.getInt(c.getColumnIndex(JENIS_AWAN_KEY_ID));
+            c.close();
+        } catch (Exception e) {
+            Log.e("bs - getService", e.getMessage());
+        }
+        db.close();
+        return jenisAwanId;
+    }
+
+    public ArrayList<String> getDaftarAwan(String jenisAwan) {
+        int jenisAwanId = getJenisAwanId(jenisAwan);
+        ArrayList<String> daftarAwan = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + AWAN_NAMA +
+                " FROM " + TABLE_AWAN +
+                " WHERE " + AWAN_JENIS_AWAN + " = ?";
+        System.out.println(query);
+        Cursor c;
+
+        try {
+            c = db.rawQuery(query, new String[] {String.valueOf(jenisAwanId)});
+            if (c==null) return daftarAwan;
+
+            if (c.moveToFirst()) {
+                while (!c.isAfterLast()) {
+                    daftarAwan.add(c.getString(c.getColumnIndex(AWAN_NAMA)));
+                    c.moveToNext();
+                }
+            }
+        } catch (Exception e) {
+            Log.e("bs - getService", e.getMessage());
+        }
+        db.close();
+        return daftarAwan;
+    }
+
+    public Awan getInformasiAwan(String namaAwan) {
+        Awan awan = null;
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * " +
+                " FROM " + TABLE_AWAN +
+                " WHERE " + AWAN_NAMA + " = ?";
+        System.out.println(query);
+        Cursor c;
+
+        try {
+            c = db.rawQuery(query, new String[] {namaAwan});
+            if (c==null) return awan;
+
+            if (c.moveToFirst()) {
+                awan = new Awan(
+                        "", //TODO: jenis
+                        String.valueOf(c.getString(c.getColumnIndex(AWAN_NAMA))),
+                        String.valueOf(c.getString(c.getColumnIndex(AWAN_DESKRIPSI_SINGKAT))),
+                        String.valueOf(c.getString(c.getColumnIndex(AWAN_KETINGGIAN))),
+                        String.valueOf(c.getString(c.getColumnIndex(AWAN_BENTUK))),
+                        String.valueOf(c.getString(c.getColumnIndex(AWAN_NAMA_LATIN))),
+                        String.valueOf(c.getString(c.getColumnIndex(AWAN_PRESPITASI))),
+                        String.valueOf(c.getString(c.getColumnIndex(AWAN_DESKRIPSI_LENGKAP))),
+                        String.valueOf(c.getString(c.getColumnIndex(AWAN_SUMBER_GAMBAR)))
+                );
+            }
+        } catch (Exception e) {
+            Log.e("bs - getService", e.getMessage());
+        }
+        db.close();
+        return awan;
     }
 
 }

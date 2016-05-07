@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tifaniwarnita.metsky.DaftarAwanFragment"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="?baseColor"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="10dp">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/daftar_awan_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

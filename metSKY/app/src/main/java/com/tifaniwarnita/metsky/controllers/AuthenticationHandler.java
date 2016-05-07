@@ -3,18 +3,20 @@ package com.tifaniwarnita.metsky.controllers;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.util.Log;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.tifaniwarnita.metsky.LoginFragment;
 import com.tifaniwarnita.metsky.SignUpFragment;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Semaphore;
 
 /**
  * Created by Tifani on 2/18/2016.
@@ -32,6 +34,15 @@ public class AuthenticationHandler {
         } else {
             // no user authenticated
             return false;
+        }
+    }
+
+    public static String getUId() {
+        authData = FirebaseConfig.ref.getAuth();
+        if (authData != null) {
+            return authData.getUid();
+        } else {
+            return null;
         }
     }
 
@@ -87,15 +98,18 @@ public class AuthenticationHandler {
         FirebaseConfig.ref.child("users").child(id).setValue(newUser);
     }
 
-    public static boolean login(final String email, final String password, final ProgressDialog progressDialog,
-                                final LoginFragment.LoginFragmentListener loginFragmentListener) {
+    public static boolean login(final String email,
+                                final String password,
+                                final ProgressDialog progressDialog,
+                                final LoginFragment.LoginFragmentListener loginFragmentListener,
+                                final Context context) {
         FirebaseConfig.ref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
                 AuthenticationHandler.authData = authData;
                 AuthenticationHandler.message = "Login success";
-                progressDialog.dismiss();
-                loginFragmentListener.onLoginSuccess();
+                Log.d(AuthenticationHandler.class.getSimpleName(), "Login success");
+                addUserInfoToSetting(context, authData, progressDialog, loginFragmentListener);
             }
 
             @Override
@@ -150,4 +164,27 @@ public class AuthenticationHandler {
         alertDialog.show();
     }
 
+    public static void addUserInfoToSetting(final Context context,
+                                            AuthData authData,
+                                            final ProgressDialog progressDialog,
+                                            final LoginFragment.LoginFragmentListener loginFragmentListener) {
+        Firebase userInfo = FirebaseConfig.ref.child("users").child(authData.getUid()).child("nama");
+        userInfo.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                Log.d(AuthenticationHandler.class.getSimpleName(), "Add user info to setting success");
+                System.out.println(snapshot.getValue());
+                String nama = snapshot.getValue().toString();
+                MetSkyPreferences.setNama(context, nama);
+                progressDialog.dismiss();
+                loginFragmentListener.onLoginSuccess();
+            }
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                System.out.println("The read failed: " + firebaseError.getMessage());
+                MetSkyPreferences.setNama(context, "");
+                progressDialog.dismiss();
+            }
+        });
+    }
 }

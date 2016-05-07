@@ -1,0 +1,98 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?baseColor"
+    tools:context="com.tifaniwarnita.metsky.KeadaanCuacaFragment"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Bagaimana cuaca yang kamu rasakan saat ini?"
+        android:textColor="@android:color/white"/>
+
+    <LinearLayout
+        android:layout_margin="5px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/keadaancuaca_imagebutton_cerah"
+            android:layout_margin="5px"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/menu_cerah"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside" />
+
+        <ImageButton
+            android:id="@+id/keadaancuaca_imagebutton_berawan"
+            android:layout_margin="5px"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/menu_berawan"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside" />
+
+        <ImageButton
+            android:id="@+id/keadaancuaca_imagebutton_cerahberawan"
+            android:layout_margin="5px"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/menu_cerah_berawan"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside" />
+
+        <ImageButton
+            android:id="@+id/keadaancuaca_imagebutton_cerahhujanringan"
+            android:layout_margin="5px"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/menu_cerah_hujan_ringan"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_margin="5px"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/keadaancuaca_imagebutton_hujanringan"
+            android:layout_margin="5px"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/menu_hujan_ringan"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside" />
+
+        <ImageButton
+            android:id="@+id/keadaancuaca_imagebutton_hujansedang"
+            android:layout_margin="5px"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/menu_hujan_sedang"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside" />
+
+        <ImageButton
+            android:id="@+id/keadaancuaca_imagebutton_hujanlebat"
+            android:layout_margin="5px"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/menu_hujan_lebat"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside" />
+
+    </LinearLayout>
+
+</LinearLayout>

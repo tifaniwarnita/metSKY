@@ -1,0 +1,36 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tifaniwarnita.metsky.ProfilMetSKYFragment"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="?baseColor"
+    android:padding="16dp">
+
+    <ImageView
+        android:layout_margin="20dp"
+        android:id="@+id/signup_logo_splash_metsky"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:src="@drawable/logo_splash_metsky" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="metSKY adalah aplikasi informasi prediksi cuaca eksperimental Laboratorium Analisis Meteorologi yang merupakan kelanjutan dari aplikasi WCPL mobile. Dengan kejadian cuaca ekstrem yang diperkirakan meningkat secara frekuensi, durasi, dan intensitas di masa yang akan datang (IPCC, 2012), observasi resolusi tinggi sangat
+dibutuhkan untuk mengamati kondisi atmosfer dan fenomena cuaca yang terjadi untuk mengurangi resiko bencana. Untuk tujuan itulah aplikasi metSKY dikembangkan agar dapat memberikan informasi, edukasi, serta mengura- ngi resiko akibat cuaca ekstrem melalui foto yang ditangkap secara
+langsung oleh masyarakat, di samping meningkatkan model prediksi cuaca di Indonesia.\n\nSekarang, semua orang dapat berbagi informasi cuaca dengan mudah, informatif, dan menyenangkan dengan sentuhan jari!\n\nInstagram\t: @metsky.project\nFacebook\t: facebook.com/metskyproject"
+            android:textColor="@android:color/white"/>
+
+    </ScrollView>
+
+</LinearLayout>

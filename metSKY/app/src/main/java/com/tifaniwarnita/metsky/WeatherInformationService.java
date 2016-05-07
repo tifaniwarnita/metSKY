@@ -3,16 +3,19 @@ package com.tifaniwarnita.metsky;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.IBinder;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 
+import com.tifaniwarnita.metsky.controllers.MetSkyPreferences;
 import com.tifaniwarnita.metsky.models.Cuaca;
 import com.tifaniwarnita.metsky.models.InformasiCuaca;
+
+import java.util.List;
 
 import pl.charmas.android.reactivelocation.ReactiveLocationProvider;
 import rx.functions.Action1;
@@ -48,10 +51,44 @@ public class WeatherInformationService extends Service {
                             @Override
                             public void call(Location location) {
                                 System.out.println("create new informasi cuaca");
-                                InformasiCuaca informasiCuaca = new InformasiCuaca(String.valueOf(location.getLatitude()),
+                                // Save to shared preferences
+                                MetSkyPreferences.setLatitudeLongitude(
+                                        getApplicationContext(),
+                                        location.getLatitude(),
+                                        location.getLongitude());
+                                new InformasiCuaca(String.valueOf(location.getLatitude()),
                                         String.valueOf(location.getLongitude()), homeActivity, homeFragment, weatherService);
                             }
                         });
+            } else {
+                String latitude = MetSkyPreferences.getLatitude(getApplicationContext());
+                String longitude = MetSkyPreferences.getLongitude(getApplicationContext());
+                if (latitude != null && longitude != null) {
+                    new InformasiCuaca(latitude, longitude,
+                            homeActivity, homeFragment, weatherService);
+                } else {
+                    LocationManager manager = (LocationManager) homeActivity.getSystemService(Context.LOCATION_SERVICE);
+                    Location utilLocation = null;
+                    List<String> providers = manager.getProviders(true);
+                    for (String provider : providers) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            }
+                        }
+                        utilLocation = manager.getLastKnownLocation(provider);
+                        if(utilLocation != null) {
+                            System.out.println("new informasi cuaca");
+                            // Save to shared preferences
+                            MetSkyPreferences.setLatitudeLongitude(
+                                    getApplicationContext(),
+                                    utilLocation.getLatitude(),
+                                    utilLocation.getLongitude());
+                            new InformasiCuaca(String.valueOf(utilLocation.getLatitude()),
+                                    String.valueOf(utilLocation.getLongitude()), homeActivity, homeFragment, weatherService);
+                            break;
+                        }
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

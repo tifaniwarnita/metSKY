@@ -76,6 +76,68 @@
 
     </LinearLayout>
 
-    <include layout="@layout/template_clouds_bottom" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/icon_cerah"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/icon_berawan"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/icon_cerah_berawan"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/icon_cerah_hujan_ringan"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/icon_hujan_ringan"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/icon_hujan_lebat"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/icon_hujan_sedang"/>
+
+    </LinearLayout>
 
 </LinearLayout>

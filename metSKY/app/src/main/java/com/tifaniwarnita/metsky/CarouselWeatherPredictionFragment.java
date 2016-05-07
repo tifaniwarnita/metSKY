@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,6 +73,8 @@ public class CarouselWeatherPredictionFragment extends Fragment {
         ImageView awan6 = (ImageView) v.findViewById(R.id.home_carousel_awan6);
         imageViewAwanList.add(awan6);
 
+        Log.d("CAROUSEL", "image view awan list size: " + imageViewAwanList.size());
+
         TextView waktu1 = (TextView) v.findViewById(R.id.home_carousel_waktu1);
         textViewWaktuList.add(waktu1);
         TextView waktu2 = (TextView) v.findViewById(R.id.home_carousel_waktu2);
@@ -93,6 +96,9 @@ public class CarouselWeatherPredictionFragment extends Fragment {
     }
 
     public void updateAwanWaktu(CuacaSerializable cuaca) {
+        Log.d("CAROUSEL", "Update image view awan list size: " + imageViewAwanList.size());
+
+        this.cuaca = cuaca;
         ArrayList<ArrayList<String>> awanWaktuList = cuaca.getSixAwanWaktu();
         for (int i=0; i<awanWaktuList.size(); i++) {
             Context context = imageViewAwanList.get(i).getContext();

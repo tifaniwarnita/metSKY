@@ -1,8 +1,11 @@
 package com.tifaniwarnita.metsky;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,8 +23,10 @@ import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.tifaniwarnita.metsky.controllers.DatabaseHandler;
+import com.tifaniwarnita.metsky.controllers.MetSkyPreferences;
 import com.tifaniwarnita.metsky.models.Cuaca;
 import com.tifaniwarnita.metsky.models.CuacaSerializable;
+import com.tifaniwarnita.metsky.models.InformasiCuaca;
 import com.tifaniwarnita.metsky.views.HomeCarouselCameraView;
 import com.tifaniwarnita.metsky.views.HomeCarouselGraphView;
 import com.tifaniwarnita.metsky.views.HomeCarouselWeatherView;
@@ -52,12 +57,13 @@ public class HomeFragment extends Fragment {
     private ViewPagerAdapter adapter;
     private SliderLayout slider;
     private Cuaca cuaca;
-    HomeCarouselWeatherView carouselWeatherView = null;
+    private CarouselWeatherPredictionFragment carouselWeatherPredictionFragment;
 
     private Intent intent;
 
     public interface HomeFragmentListener {
         public void onCameraButtonClicked();
+        public void setCuaca(Cuaca cuaca);
     }
 
     public static HomeFragment newInstance(String emotion) {
@@ -70,6 +76,10 @@ public class HomeFragment extends Fragment {
 
     public HomeFragment() {
         // Required empty public constructor
+    }
+
+    public Cuaca getCuaca() {
+        return cuaca;
     }
 
     @Override
@@ -108,6 +118,36 @@ public class HomeFragment extends Fragment {
 
         dbHandler.openDB();
         cuaca = dbHandler.getCuaca();
+        try {
+            MetSkyPreferences.setLatitudeLongitude(getContext(),
+                    Double.parseDouble(cuaca.getLatitude()),
+                    Double.parseDouble(cuaca.getLongitude()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        final LocationManager manager = (LocationManager) getActivity().getSystemService(
+                homeActivity.getApplicationContext().LOCATION_SERVICE);
+
+        try {
+            if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+                try {
+                    String latitude = MetSkyPreferences.getLatitude(getContext());
+                    String longitude = MetSkyPreferences.getLongitude(getContext());
+                    if (latitude != null && longitude != null) {
+                        new InformasiCuaca(latitude, longitude,
+                                getActivity(), this, null);
+                    }
+                } catch (Exception e) {
+
+                }
+                buildAlertMessageNoGps();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        cuaca = dbHandler.getCuaca();
 
         viewPager = (ViewPager) v.findViewById(R.id.home_carousel_viewpager);
         setupViewPager(viewPager, cuaca);
@@ -124,9 +164,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupViewPager(ViewPager viewPager, Cuaca cuaca) {
+        carouselWeatherPredictionFragment = CarouselWeatherPredictionFragment.newInstance(new CuacaSerializable(cuaca));
         adapter = new ViewPagerAdapter(getChildFragmentManager());
-        adapter.addFragment(new CarouselGraphFragment(), "graph");
-        adapter.addFragment(CarouselWeatherPredictionFragment.newInstance(new CuacaSerializable(cuaca)), "weather_prediction");
+        adapter.addFragment(CarouselGraphFragment.newInstance(new CuacaSerializable(cuaca)), "graph");
+        adapter.addFragment(carouselWeatherPredictionFragment, "weather_prediction");
         adapter.addFragment(new CarouselCameraFragment(), "camera");
         viewPager.setAdapter(adapter);
     }
@@ -161,6 +202,8 @@ public class HomeFragment extends Fragment {
     }
 
     public void updateUI(Cuaca cuaca) {
+        this.cuaca = cuaca;
+        homeFragmentListener.setCuaca(cuaca);
         textViewLokasi.setText(cuaca.getKota());
         textViewDerajat.setText(String.valueOf(cuaca.getCurrentSuhu()));
         textViewKelembaban.setText(String.valueOf(cuaca.getCurrentKelembaban()) + "%");
@@ -170,10 +213,10 @@ public class HomeFragment extends Fragment {
                 "drawable", context.getPackageName());
         imageViewAwan.setImageResource(id);
 
-        context = imageViewArahAngin.getContext(); //TODO NUNGGU ANGIN
-        // id = context.getResources().getIdentifier("icon_arrow_" + cuaca.getCurrentArahAngin(),
-                // "drawable", context.getPackageName());
-        // imageViewArahAngin.setImageResource(id);
+        context = imageViewArahAngin.getContext();
+        id = context.getResources().getIdentifier("icon_arrow_" + cuaca.getCurrentArahAngin().toLowerCase(),
+                "drawable", context.getPackageName());
+        imageViewArahAngin.setImageResource(id);
 
         textViewKecepatanAngin.setText(String.valueOf(cuaca.getCurrentKecepatanAngin()) + "m/s");
 
@@ -184,15 +227,18 @@ public class HomeFragment extends Fragment {
 
         textViewInfoWaktu.setText("Dikeluarkan: " + cuaca.getDikeluarkan() + "\nBerlaku mulai: " + cuaca.getBerlaku());
 
-        if(carouselWeatherView != null) {
-            carouselWeatherView.updateAwanWaktu(cuaca);
-        }
+        updateWeatherPrediction(cuaca);
     }
 
     private void updateWeatherPrediction(Cuaca cuaca) {
-        if (adapter.getItem(1) != null) { //weather prediction
-            CarouselWeatherPredictionFragment fragment = (CarouselWeatherPredictionFragment) adapter.getItem(1);
-            fragment.updateAwanWaktu(new CuacaSerializable(cuaca));
+        if (adapter != null) {
+            try {
+                if (adapter.getItem(1) != null) { //weather prediction
+                    carouselWeatherPredictionFragment.updateAwanWaktu(new CuacaSerializable(cuaca));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -208,10 +254,37 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            updateUI(cuaca);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         homeFragmentListener = null;
         getContext().stopService(intent);
     }
 
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
 }

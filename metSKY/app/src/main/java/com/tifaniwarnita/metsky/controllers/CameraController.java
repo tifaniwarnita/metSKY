@@ -4,14 +4,23 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.tifaniwarnita.metsky.R;
+
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -73,12 +82,25 @@ public class CameraController {
         }
     }
 
-    private static void galleryAddPic(Activity activity) {
+    public static void galleryAddPic(Activity activity, Bitmap photo) {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         File f = new File(currentPhotoPath);
         Uri contentUri = Uri.fromFile(f);
+
+        //Add watermark
+        try {
+            OutputStream fOut = null;
+            fOut = new FileOutputStream(f);
+            photo.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
+            fOut.flush();
+            fOut.close(); // do not forget to close the stream
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         mediaScanIntent.setData(contentUri);
         activity.sendBroadcast(mediaScanIntent);
+        Toast.makeText(activity.getApplicationContext(),
+                "Photo saved!", Toast.LENGTH_SHORT).show();
     }
 
     // Another option
@@ -93,15 +115,26 @@ public class CameraController {
         context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
     }
 
-    public static void onCameraResult(Activity activity, int requestCode, int resultCode, Intent data) {
+    public static Bitmap onCameraResult(Activity activity, int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == activity.RESULT_OK) {
-            Log.i(TAG, "Add image to gallery on activity");
-            galleryAddPic(activity);
-            Toast.makeText(activity.getApplicationContext(),
-                    "Photo saved!", Toast.LENGTH_SHORT).show();
+            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            File f = new File(currentPhotoPath);
+            Uri contentUri = Uri.fromFile(f);
+
+            //Add watermark
+            Bitmap photo = null;
+            try {
+                photo = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), contentUri);
+                Bitmap newPhoto = mark(activity.getApplicationContext(), photo, "metSKY");
+                return newPhoto;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
         } else {
             Log.i(TAG, "Result code is not ok");
             deletePicture(currentPhotoPath);
+            return null;
         }
     }
 
@@ -113,6 +146,51 @@ public class CameraController {
         } catch (Exception e) {
             Log.e("tag", e.getMessage());
         }
+    }
+
+    public static Bitmap cropPicture(Bitmap srcBmp) {
+        Bitmap dstBmp;
+        if (srcBmp.getWidth() >= srcBmp.getHeight()){
+            dstBmp = Bitmap.createBitmap(
+                    srcBmp,
+                    srcBmp.getWidth()/2 - srcBmp.getHeight()/2,
+                    0,
+                    srcBmp.getHeight(),
+                    srcBmp.getHeight()
+            );
+        }else {
+            dstBmp = Bitmap.createBitmap(
+                    srcBmp,
+                    0,
+                    srcBmp.getHeight() / 2 - srcBmp.getWidth() / 2,
+                    srcBmp.getWidth(),
+                    srcBmp.getWidth()
+            );
+        }
+        return dstBmp;
+    }
+
+    public static Bitmap mark(Context context, Bitmap src, String watermark) {
+        Bitmap watermarkImage = BitmapFactory.decodeResource(context.getResources(),
+                R.drawable.watermark_image);
+
+        //Crop and scale
+        Bitmap image = Bitmap.createScaledBitmap(
+                cropPicture(src),
+                watermarkImage.getWidth(),
+                watermarkImage.getHeight(),
+                true);
+
+        Bitmap result = Bitmap.createBitmap(
+        watermarkImage.getWidth(),
+                watermarkImage.getHeight(),
+                src.getConfig());
+
+        Canvas canvas = new Canvas(result);
+        canvas.drawBitmap(image, 0, 0, null);
+        canvas.drawBitmap(watermarkImage, 0, 0, null);
+
+        return result;
     }
 }
 

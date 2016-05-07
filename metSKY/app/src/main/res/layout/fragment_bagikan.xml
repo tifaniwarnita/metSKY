@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tifaniwarnita.metsky.BagikanFragment"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="?baseColor"
+    android:padding="20dp">
+
+    <com.facebook.share.widget.ShareButton
+        android:id="@+id/bagikan_facebook"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="BAGIKAN DI FACEBOOK"
+        android:background="#3B5998"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/bagikan_twitter"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Bagikan di Twitter"
+        android:background="#55ACEE"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/bagikan_google"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bagikan di Google+"
+        android:background="#DC4E41"
+        android:textColor="@android:color/white"/>
+
+
+</LinearLayout>

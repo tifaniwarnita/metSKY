@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import com.firebase.client.Firebase;
 import com.tifaniwarnita.metsky.controllers.AuthenticationHandler;
 import com.tifaniwarnita.metsky.controllers.FirebaseConfig;
-import com.tifaniwarnita.metsky.controllers.MetSkySettings;
+import com.tifaniwarnita.metsky.controllers.MetSkyPreferences;
 
 public class SplashActivity extends AppCompatActivity {
     private boolean done = false;
@@ -23,7 +23,7 @@ public class SplashActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         FirebaseConfig.initialize();
         AuthenticationHandler.setActivity(this);
-        MetSkySettings.initialize(this);
+        MetSkyPreferences.initialize(this);
 
         setContentView(R.layout.activity_splash);
 
@@ -49,7 +49,7 @@ public class SplashActivity extends AppCompatActivity {
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     startActivity(intent);
                 } else {
-                    int emotion = MetSkySettings.getEmotion();
+                    int emotion = MetSkyPreferences.getEmotion(getApplicationContext());
                     if (emotion == -1) { //no emotion
                         Intent intent = new Intent(SplashActivity.this, AuthActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

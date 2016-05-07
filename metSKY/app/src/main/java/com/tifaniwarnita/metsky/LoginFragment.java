@@ -84,8 +84,12 @@ public class LoginFragment extends Fragment {
                 } else {
                     // All fields have been filled, login
                     progressDialog = ProgressDialog.show(getActivity(), "", "Masuk...");
-                    AuthenticationHandler.login(editTextEmail.getText().toString(),
-                            editTextSandi.getText().toString(), progressDialog, loginFragmentListener);
+                    AuthenticationHandler.login(
+                            editTextEmail.getText().toString(),
+                            editTextSandi.getText().toString(),
+                            progressDialog,
+                            loginFragmentListener,
+                            getContext());
                 }
             }
         });

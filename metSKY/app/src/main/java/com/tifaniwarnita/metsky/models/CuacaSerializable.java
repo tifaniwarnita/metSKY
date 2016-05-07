@@ -8,6 +8,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,6 +25,7 @@ public class CuacaSerializable implements Serializable {
     private final String kota;
     private final String level;
     private final String cuaca;
+    private ArrayList<String> suhu;
     private ArrayList<String> waktu;
     private ArrayList<String> awan;
     private Date keluar;
@@ -33,6 +35,11 @@ public class CuacaSerializable implements Serializable {
         this.kota = cuaca.getKota();
         this.level = cuaca.getLevel();
         this.cuaca = cuaca.getCuaca();
+        ArrayList<Integer> tempSuhu = cuaca.getSuhu();
+        this.suhu = new ArrayList<>(tempSuhu.size());
+        for(Integer i : tempSuhu) {
+            this.suhu.add(new String(String.valueOf(i)));
+        }
         ArrayList<String> tempWaktu = cuaca.getWaktu();
         this.waktu = new ArrayList<>(tempWaktu.size());
         for(String s : tempWaktu) {
@@ -131,4 +138,10 @@ public class CuacaSerializable implements Serializable {
         }
         return ret;
     }
+
+    public ArrayList<String> getSuhu() {
+        return suhu;
+    }
+
+    public ArrayList<String> getWaktu() { return waktu; }
 }
