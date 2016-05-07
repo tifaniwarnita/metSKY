@@ -8,12 +8,12 @@
     android:background="?baseColor"
     android:padding="20dp">
 
-    <com.facebook.share.widget.ShareButton
+    <Button
         android:id="@+id/bagikan_facebook"
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:text="BAGIKAN DI FACEBOOK"
+        android:text="Bagikan di Facebook"
         android:background="#3B5998"
         android:textColor="@android:color/white"/>
 

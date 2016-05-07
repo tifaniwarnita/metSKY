@@ -30,10 +30,15 @@ import com.tifaniwarnita.metsky.controllers.FirebaseHandler;
 import com.tifaniwarnita.metsky.controllers.MetSkyPreferences;
 import com.tifaniwarnita.metsky.models.Cuaca;
 import com.tifaniwarnita.metsky.views.ExpandableListAdapter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -49,6 +54,7 @@ public class MainActivity extends AppCompatActivity
     private HomeFragment homeFragment;
     private static MainActivity currentActivity = null;
     private ActionBarDrawerToggle toggle;
+    private DrawerLayout drawer;
 
     private ExpandableListAdapter listAdapter;
     private ExpandableListView expListView;
@@ -66,12 +72,16 @@ public class MainActivity extends AppCompatActivity
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
 
+        TwitterAuthConfig authConfig =  new TwitterAuthConfig(getResources().getString(R.string.twitter_consumer_key),
+                getResources().getString(R.string.twitter_consumer_secret));
+        Fabric.with(this, new TwitterCore(authConfig), new TweetComposer());
+
         MetSkyPreferences.initialize(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
 
-        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -368,11 +378,6 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -381,27 +386,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        /* if (id == R.id.nav_laporkan_foto) {
-            CameraController.dispatchTakePictureIntent(this);
-        } else if (id == R.id.nav_laporkan_cuaca) {
-            FragmentManager fm = getSupportFragmentManager();
-            fm.beginTransaction()
-                    .replace(R.id.main_fragment_container, new KeadaanCuacaFragment())
-                    .addToBackStack(null)
-                    .commit();
-        } else if (id == R.id.nav_ubah_lokasi) {
-
-        } else if (id == R.id.nav_kenali_awan) {
-
-        } else if (id == R.id.nav_umpan_balik) {
-
-        } else if (id == R.id.nav_bagikan) {
-
-        } else if (id == R.id.nav_profil) {
-            Toast.makeText(getApplicationContext(), "Profil",
-                    Toast.LENGTH_LONG).show();
-        } */
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -508,6 +492,8 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
         toggle.setDrawerIndicatorEnabled(true);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
     }
 
     @Override

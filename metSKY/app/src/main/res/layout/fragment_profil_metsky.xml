@@ -13,7 +13,7 @@
         android:layout_margin="20dp"
         android:id="@+id/signup_logo_splash_metsky"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
         android:src="@drawable/logo_splash_metsky" />

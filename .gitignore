@@ -32,3 +32,4 @@ proguard/
 captures/
 
 /metSKY/app/src/main/res/values/strings.xml
+/metSKY/app/google-services.json
