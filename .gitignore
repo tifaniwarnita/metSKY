@@ -32,4 +32,4 @@ proguard/
 captures/
 
 metSKY/gradle.properties
-metSKY/google-services.json
+metSKY/app/google-services.json
