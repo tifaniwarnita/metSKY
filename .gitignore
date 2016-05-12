@@ -29,10 +29,6 @@ proguard/
 .navigation/
 
 # Android Studio captures folder
-<<<<<<< HEAD
 captures/
 
 metSKY/gradle.properties
-=======
-captures/
->>>>>>> 0b958e127db0a1a09497994c034b1863cc24b7ea
