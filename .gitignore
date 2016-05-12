@@ -30,6 +30,3 @@ proguard/
 
 # Android Studio captures folder
 captures/
-
-/metSKY/app/src/main/res/values/strings.xml
-/metSKY/app/google-services.json
