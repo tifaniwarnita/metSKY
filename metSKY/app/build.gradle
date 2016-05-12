@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 
+def GOOGLE_APP_ID = '"' + GoogleAppId + '"' ?: '"Define Google App Id"';
+def FACEBOOK_APP_ID = '"' + FacebookAppId + '"' ?: '"Define Facebook App Id"';
+def TWITTER_CONSUMER_KEY = '"' + TwitterConsumerKey + '"' ?: '"Define Twitter Consumer Key"';
+def TWITTER_CONSUMER_SECRET = '"' + TwitterConsumerSecret + '"' ?: '"Define Twitter Consumer Secret"';
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
@@ -13,9 +18,18 @@ android {
         multiDexEnabled true
     }
     buildTypes {
+        debug {
+            resValue "string", "facebook_app_id", FACEBOOK_APP_ID
+            resValue "string", "twitter_consumer_key", TWITTER_CONSUMER_KEY
+            resValue "string", "twitter_consumer_secret", TWITTER_CONSUMER_SECRET
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "facebook_app_id", FACEBOOK_APP_ID
+            resValue "string", "twitter_consumer_key", TWITTER_CONSUMER_KEY
+            resValue "string", "twitter_consumer_secret", TWITTER_CONSUMER_SECRET
+
         }
     }
     packagingOptions {
