@@ -136,9 +136,12 @@ public class MainActivity extends AppCompatActivity
                                         int groupPosition, long id) {
                 FragmentManager fm;
                 switch (groupPosition) {
-                    case 0:     // Laporkan
+                    case 0:     // WCPL Weather Report Map
+
                         break;
-                    case 1:     // Ubah Lokasi
+                    case 1:     // Laporkan
+                        break;
+                    case 2:     // Ubah Lokasi
                         drawer.closeDrawer(Gravity.LEFT);
                         goToMenuUbahLokasi();
                         fm = getSupportFragmentManager();
@@ -147,16 +150,16 @@ public class MainActivity extends AppCompatActivity
                                 .addToBackStack(null)
                                 .commit();
                         break;
-                    case 2:     // Kenali Awan
+                    case 3:     // Kenali Awan
                         break;
-                    case 3:     // Tutorial Aplikasi
+                    case 4:     // Tutorial Aplikasi
                         drawer.closeDrawer(Gravity.LEFT);
                         goToMenuTutorialAplikasi();
                         Intent intent = new Intent(MainActivity.this, CarouselActivity.class);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         startActivity(intent);
                         break;
-                    case 4:     // Umpan Balik
+                    case 5:     // Umpan Balik
                         drawer.closeDrawer(Gravity.LEFT);
                         goToMenuUmpanBalik();
                         fm = getSupportFragmentManager();
@@ -165,7 +168,7 @@ public class MainActivity extends AppCompatActivity
                                 .addToBackStack(null)
                                 .commit();
                         break;
-                    case 5:     // Bagikan
+                    case 6:     // Bagikan
                         drawer.closeDrawer(Gravity.LEFT);
                         goToMenuBagikan();
                         fm = getSupportFragmentManager();
@@ -174,7 +177,7 @@ public class MainActivity extends AppCompatActivity
                                 .addToBackStack(null)
                                 .commit();
                         break;
-                    case 6:     // Profil
+                    case 7:     // Profil
                         break;
                 }
                 return false;
@@ -190,7 +193,9 @@ public class MainActivity extends AppCompatActivity
                                         int groupPosition, int childPosition, long id) {
                 FragmentManager fm;
                 switch (groupPosition) {
-                    case 0:
+                    case 0:             // WCPL Weather Report Map
+                        break;
+                    case 1:
                         switch (childPosition) {
                             case 0:     // Laporkan - Foto Cuaca
                                 CameraController.dispatchTakePictureIntent(mainActivity);
@@ -205,9 +210,9 @@ public class MainActivity extends AppCompatActivity
                                 break;
                         }
                         break;
-                    case 1:             // Ubah Lokasi
+                    case 2:             // Ubah Lokasi
                         break;
-                    case 2:
+                    case 3:
                         switch (childPosition) {
                             case 0:     // Kenali Awan - Awan Rendah
                                 goToMenuKenaliAwanRendah();
@@ -238,13 +243,13 @@ public class MainActivity extends AppCompatActivity
                                 break;
                         }
                         break;
-                    case 3:             // Tutorial Aplikasi
+                    case 4:             // Tutorial Aplikasi
                         break;
-                    case 4:             // Umpan Balik
+                    case 5:             // Umpan Balik
                         break;
-                    case 5:             // Bagikan
+                    case 6:             // Bagikan
                         break;
-                    case 6:
+                    case 7:
                         switch (childPosition) {
                             case 0:     // Profil - metSKY
                                 goToMenuProfilMetSKY();
@@ -289,6 +294,7 @@ public class MainActivity extends AppCompatActivity
         // Adding child data
         ArrayList<String> headerTitle = new ArrayList<>();
         ArrayList<String> icon = new ArrayList<>();
+        headerTitle.add("WCPL Weather Report Map");
         headerTitle.add("Laporkan");
         headerTitle.add("Ubah Lokasi");
         headerTitle.add("Kenali Awan");
@@ -297,6 +303,7 @@ public class MainActivity extends AppCompatActivity
         headerTitle.add("Bagikan");
         headerTitle.add("Profil");
 
+        icon.add("icon_lokasi");
         icon.add("icon_laporkan");
         icon.add("icon_lokasi");
         icon.add("icon_menu_kenali_awan");
@@ -323,9 +330,9 @@ public class MainActivity extends AppCompatActivity
         profil.add("WCPL");
         profil.add("Credits");
 
-        listDataChild.put(listDataHeader.get(0).get(0), laporkan); // Header, Child data
-        listDataChild.put(listDataHeader.get(0).get(2), awan);
-        listDataChild.put(listDataHeader.get(0).get(6), profil);
+        listDataChild.put(listDataHeader.get(0).get(1), laporkan); // Header, Child data
+        listDataChild.put(listDataHeader.get(0).get(3), awan);
+        listDataChild.put(listDataHeader.get(0).get(7), profil);
     }
 
     @Override
