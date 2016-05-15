@@ -28,10 +28,10 @@ public class CarouselWeatherPredictionFragment extends Fragment {
     // The fragment initialization parameters
     private static final String ARG_CUACA = "cuaca";
 
-    CuacaSerializable cuaca = null;
-    TextView currentDate;
-    List<ImageView> imageViewAwanList = new ArrayList<>();
-    List<TextView> textViewWaktuList = new ArrayList<>();
+    private CuacaSerializable cuaca = null;
+    private TextView currentDate;
+    private static List<ImageView> imageViewAwanList = new ArrayList<>();
+    private static List<TextView> textViewWaktuList = new ArrayList<>();
 
     public static CarouselWeatherPredictionFragment newInstance(CuacaSerializable cuaca) {
         CarouselWeatherPredictionFragment fragment = new CarouselWeatherPredictionFragment();
@@ -59,6 +59,9 @@ public class CarouselWeatherPredictionFragment extends Fragment {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_carousel_weather_prediction, container, false);
         currentDate = (TextView) v.findViewById(R.id.home_carousel_weathertitle);
+
+        imageViewAwanList.clear();
+        textViewWaktuList.clear();
 
         ImageView awan1 = (ImageView) v.findViewById(R.id.home_carousel_awan1);
         imageViewAwanList.add(awan1);
@@ -93,6 +96,13 @@ public class CarouselWeatherPredictionFragment extends Fragment {
         }
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        Log.e("DEBUG", "onResume of CarouselWeather");
+        super.onResume();
+        updateAwanWaktu(cuaca);
     }
 
     public void updateAwanWaktu(CuacaSerializable cuaca) {

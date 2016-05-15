@@ -42,7 +42,7 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
                 done = true; //TODO EDIT SUPAYA GA KE DIA LAGI
                 // Check whether there's a user's been logged in or not
-                if (!AuthenticationHandler.auth()) { // no user
+                if (AuthenticationHandler.getUId() == null) { // no user
                     Intent intent = new Intent(SplashActivity.this, AuthActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.putExtra("type", AuthActivity.SIGN_UP);

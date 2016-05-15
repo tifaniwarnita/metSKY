@@ -1,5 +1,6 @@
 package com.tifaniwarnita.metsky.controllers;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Base64;
@@ -20,42 +21,50 @@ import java.util.Map;
  */
 public class FirebaseHandler {
 
-    public static void laporkanFoto(Context context, Cuaca cuaca, Bitmap photo) {
+    public static void laporkanFoto(Context context, Cuaca cuaca, Bitmap photo, ProgressDialog progressDialog) {
         String uid = AuthenticationHandler.getUId();
-        if (uid != null) {
-            // Add new data in table user
-            String nama = MetSkyPreferences.getNama(context);
-            Date date = new Date();
-            DateFormat formatTanggal = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-            DateFormat formatWaktu = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+        try {
+            if (uid != null) {
+                // Add new data in table user
+                String nama = MetSkyPreferences.getNama(context);
+                Date date = new Date();
+                DateFormat formatTanggal = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+                DateFormat formatWaktu = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
 
-            String tanggal = formatTanggal.format(date);
-            String waktu = formatWaktu.format(date);
-            String stringFoto = encodeBitmapToString(photo);
-            String latitude = MetSkyPreferences.getLatitude(context);
-            String longitude = MetSkyPreferences.getLongitude(context);
+                String tanggal = formatTanggal.format(date);
+                String waktu = formatWaktu.format(date);
+                String stringFoto = encodeBitmapToString(photo);
+                String latitude = MetSkyPreferences.getLatitude(context);
+                String longitude = MetSkyPreferences.getLongitude(context);
 
-            Map<String, String> keadaanCuaca = new HashMap<String, String>();
-            keadaanCuaca.put("nama", nama);
-            if (cuaca != null) {
-                keadaanCuaca.put("lokasi", cuaca.getKota());
+                Map<String, String> keadaanCuaca = new HashMap<String, String>();
+                keadaanCuaca.put("nama", nama);
+                if (cuaca != null) {
+                    keadaanCuaca.put("lokasi", cuaca.getKota());
+                } else {
+                    keadaanCuaca.put("lokasi", "");
+                }
+                if (latitude != null && longitude != null) {
+                    keadaanCuaca.put("latitude", latitude);
+                    keadaanCuaca.put("longitude", longitude);
+                } else {
+
+                }
+                keadaanCuaca.put("tanggal", tanggal);
+                keadaanCuaca.put("waktu", waktu);
+                keadaanCuaca.put("foto", stringFoto);
+
+                FirebaseConfig.ref.child("foto_cuaca").push().setValue(keadaanCuaca);
+                Toast.makeText(context, "Foto berhasil dilaporkan", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             } else {
-                keadaanCuaca.put("lokasi", "");
+                Toast.makeText(context, "Terjadi error", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
-            if (latitude != null && longitude != null) {
-                keadaanCuaca.put("latitude", latitude);
-                keadaanCuaca.put("longitude", longitude);
-            } else {
-
-            }
-            keadaanCuaca.put("tanggal", tanggal);
-            keadaanCuaca.put("waktu", waktu);
-            keadaanCuaca.put("foto", stringFoto);
-
-            FirebaseConfig.ref.child("foto_cuaca").push().setValue(keadaanCuaca);
-            Toast.makeText(context, "Foto berhasil dilaporkan", Toast.LENGTH_SHORT).show();
-        } else {
+        } catch (Exception e) {
+            e.printStackTrace();
             Toast.makeText(context, "Terjadi error", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
         }
     }
 

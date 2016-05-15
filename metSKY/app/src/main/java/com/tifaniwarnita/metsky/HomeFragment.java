@@ -208,6 +208,7 @@ public class HomeFragment extends Fragment {
         textViewDerajat.setText(String.valueOf(cuaca.getCurrentSuhu()));
         textViewKelembaban.setText(String.valueOf(cuaca.getCurrentKelembaban()) + "%");
 
+        System.out.println("CURRENT AWAN: " + cuaca.getCurrentAwan());
         Context context = imageViewAwan.getContext();
         int id = context.getResources().getIdentifier("icon_" + cuaca.getCurrentAwan() + "64",
                 "drawable", context.getPackageName());

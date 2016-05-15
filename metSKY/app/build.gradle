@@ -8,6 +8,7 @@ def TWITTER_CONSUMER_SECRET = '"' + TwitterConsumerSecret + '"' ?: '"Define Twit
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
+    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "com.tifaniwarnita.metsky"
@@ -62,6 +63,7 @@ dependencies {
     compile('com.twitter.sdk.android:twitter:1.13.1@aar') {
         transitive = true
     }
+    compile 'org.apache.httpcomponents:httpclient:4.5'
 }
 
 apply plugin: 'com.google.gms.google-services'

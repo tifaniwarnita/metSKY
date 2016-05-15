@@ -1,5 +1,9 @@
 package com.tifaniwarnita.metsky;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
@@ -90,6 +94,16 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // Notification service
+        Intent notificationIntent = new Intent(MainActivity.this, ShowNotification.class);
+        PendingIntent contentIntent = PendingIntent.getService(getApplicationContext(), 0, notificationIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
+
+        AlarmManager am = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        am.cancel(contentIntent);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
+                + AlarmManager.INTERVAL_DAY * 2, AlarmManager.INTERVAL_DAY * 2, contentIntent);
+
         // Edit header
         View header = LayoutInflater.from(this).inflate(R.layout.nav_header_main, null);
         navigationView.addHeaderView(header);
@@ -158,7 +172,7 @@ public class MainActivity extends AppCompatActivity
                         break;
                     case 4:     // Tutorial Aplikasi
                         drawer.closeDrawer(Gravity.LEFT);
-                        goToMenuTutorialAplikasi();
+                        // goToMenuTutorialAplikasi();
                         intent = new Intent(MainActivity.this, CarouselActivity.class);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         startActivity(intent);
@@ -458,7 +472,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLaporkanButtonClicked(Bitmap photo) {
-        FirebaseHandler.laporkanFoto(getApplicationContext(), cuaca, photo);
+        ProgressDialog progressDialog = ProgressDialog.show(this, "", "Menunggu...");
+        FirebaseHandler.laporkanFoto(getApplicationContext(), cuaca, photo, progressDialog);
     }
 
     @Override

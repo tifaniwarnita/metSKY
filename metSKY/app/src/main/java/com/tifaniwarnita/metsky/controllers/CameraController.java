@@ -83,24 +83,31 @@ public class CameraController {
     }
 
     public static void galleryAddPic(Activity activity, Bitmap photo) {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(currentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-
-        //Add watermark
         try {
-            OutputStream fOut = null;
-            fOut = new FileOutputStream(f);
-            photo.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
-            fOut.flush();
-            fOut.close(); // do not forget to close the stream
-        } catch (IOException e) {
+            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            File f = new File(currentPhotoPath);
+            Uri contentUri = Uri.fromFile(f);
+
+            //Add watermark
+            try {
+                OutputStream fOut = null;
+                fOut = new FileOutputStream(f);
+                photo.compress(Bitmap.CompressFormat.JPEG, 85, fOut); // saving the Bitmap to a file compressed as a JPEG with 85% compression rate
+                fOut.flush();
+                fOut.close(); // do not forget to close the stream
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mediaScanIntent.setData(contentUri);
+            activity.sendBroadcast(mediaScanIntent);
+            Toast.makeText(activity.getApplicationContext(),
+                    "Photo saved!", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(activity.getApplicationContext(),
+                    "Unable to save photo", Toast.LENGTH_SHORT).show();
         }
-        mediaScanIntent.setData(contentUri);
-        activity.sendBroadcast(mediaScanIntent);
-        Toast.makeText(activity.getApplicationContext(),
-                "Photo saved!", Toast.LENGTH_SHORT).show();
+
     }
 
     // Another option

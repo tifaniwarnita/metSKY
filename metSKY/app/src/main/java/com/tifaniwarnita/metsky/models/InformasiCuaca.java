@@ -92,8 +92,8 @@ public class InformasiCuaca {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-
-                            weatherService.stopSelf();
+                            if (weatherService != null)
+                                weatherService.stopSelf();
                         }
                     }, new Response.ErrorListener() {
                 @Override
