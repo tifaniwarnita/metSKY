@@ -9,11 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.tifaniwarnita.metsky.models.CuacaSerializable;
 
 import java.util.ArrayList;
@@ -67,10 +70,29 @@ public class CarouselGraphFragment extends Fragment {
             }
             LineDataSet setSuhu = new LineDataSet(valsSuhu, "Suhu");
             setSuhu.setAxisDependency(YAxis.AxisDependency.LEFT);
+            setSuhu.setColors(new int[] { R.color.white }, getContext());
+            setSuhu.setCircleColor(getResources().getColor(R.color.white));
+            setSuhu.setValueTextColor(getResources().getColor(android.R.color.white));
+            // setSuhu.setColors(ColorTemplate.VORDIPLOM_COLORS);
             ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
             dataSets.add(setSuhu);
             LineData lineData = new LineData(cuaca.getWaktu(), dataSets);
             chart.setData(lineData);
+
+            chart.getLegend().setTextColor(getResources().getColor(R.color.white));
+            chart.getAxisRight().setDrawLabels(false);
+            chart.getAxisLeft().setTextColor(getResources().getColor(R.color.white));
+            chart.getXAxis().setTextColor(getResources().getColor(android.R.color.white));
+            chart.getAxisRight().setGridColor(getResources().getColor(android.R.color.white));
+            chart.getAxisLeft().setGridColor(getResources().getColor(android.R.color.white));
+            chart.getXAxis().setGridColor(getResources().getColor(android.R.color.white));
+            chart.getAxisLeft().setAxisLineColor(getResources().getColor(android.R.color.white));
+            chart.getXAxis().setAxisLineColor(getResources().getColor(android.R.color.white));
+            chart.getAxisRight().setAxisLineColor(Color.TRANSPARENT);
+            chart.getAxisLeft().setAxisLineColor(getResources().getColor(android.R.color.white));
+            chart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+            chart.setBorderColor(getResources().getColor(android.R.color.white));
+
             chart.invalidate();
         }
         return v;

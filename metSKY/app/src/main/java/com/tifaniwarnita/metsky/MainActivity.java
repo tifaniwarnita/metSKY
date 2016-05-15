@@ -135,9 +135,13 @@ public class MainActivity extends AppCompatActivity
             public boolean onGroupClick(ExpandableListView parent, View v,
                                         int groupPosition, long id) {
                 FragmentManager fm;
+                Intent intent;
                 switch (groupPosition) {
                     case 0:     // WCPL Weather Report Map
-
+                        drawer.closeDrawer(Gravity.LEFT);
+                        intent = new Intent(MainActivity.this, ReportMapActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         break;
                     case 1:     // Laporkan
                         break;
@@ -155,7 +159,7 @@ public class MainActivity extends AppCompatActivity
                     case 4:     // Tutorial Aplikasi
                         drawer.closeDrawer(Gravity.LEFT);
                         goToMenuTutorialAplikasi();
-                        Intent intent = new Intent(MainActivity.this, CarouselActivity.class);
+                        intent = new Intent(MainActivity.this, CarouselActivity.class);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         startActivity(intent);
                         break;
