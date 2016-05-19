@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 
 import com.firebase.client.AuthData;
@@ -12,7 +14,9 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.tifaniwarnita.metsky.AuthActivity;
 import com.tifaniwarnita.metsky.LoginFragment;
+import com.tifaniwarnita.metsky.R;
 import com.tifaniwarnita.metsky.SignUpFragment;
 
 import java.util.HashMap;
@@ -50,16 +54,22 @@ public class AuthenticationHandler {
     }
 
     public static boolean signUp(final String name, final String email, final String password, final ProgressDialog progressDialog,
-                                 final SignUpFragment.SignUpFragmentListener signUpFragmentListener) {
+                                 final AuthActivity authActivity) {
 
         FirebaseConfig.ref.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
             @Override
             public void onSuccess(Map<String, Object> stringObjectMap) {
                 // Creating new account completed successfully
-                Log.i("SIGN UP", "Successfully created user account with uid: " + stringObjectMap.get("uid"));
+                Log.i(TAG, "Successfully created user account with uid: " + stringObjectMap.get("uid"));
                 AuthenticationHandler.addUser(stringObjectMap.get("uid").toString(), name, email);
                 progressDialog.dismiss();
-                signUpFragmentListener.onSignUpSuccess(email, password);
+                FragmentManager fm = authActivity.getSupportFragmentManager();
+
+                fm.beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
+                        .replace(R.id.auth_fragment_container, LoginFragment.newInstance(email, password))
+                        .addToBackStack(null)
+                        .commit();
             }
 
             @Override

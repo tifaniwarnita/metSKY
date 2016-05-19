@@ -33,13 +33,13 @@ public class SplashActivity extends AppCompatActivity {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                finish();
                 // Check whether there's a user's been logged in or not
                 if (AuthenticationHandler.getUId() == null) { // no user
                     Intent intent = new Intent(SplashActivity.this, AuthActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.putExtra("type", AuthActivity.SIGN_UP);
                     startActivity(intent);
+                    finish();
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 } else {
                     int emotion = MetSkyPreferences.getEmotion(getApplicationContext());
@@ -48,6 +48,7 @@ public class SplashActivity extends AppCompatActivity {
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         intent.putExtra("type", AuthActivity.EMOTION);
                         startActivity(intent);
+                        finish();
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     } else {
                         String param;
@@ -74,8 +75,9 @@ public class SplashActivity extends AppCompatActivity {
                         Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                         intent.putExtra("param", param);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         startActivity(intent);
+                        finish();
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }
                 }
             }

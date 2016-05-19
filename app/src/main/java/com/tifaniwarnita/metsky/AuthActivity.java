@@ -11,8 +11,8 @@ import android.view.MenuItem;
 import com.tifaniwarnita.metsky.controllers.AuthenticationHandler;
 import com.tifaniwarnita.metsky.controllers.MetSkyPreferences;
 
-public class AuthActivity extends AppCompatActivity implements SignUpFragment.SignUpFragmentListener,
-        LoginFragment.LoginFragmentListener, CarouselFragment.CarouselFragmentListener,
+public class AuthActivity extends AppCompatActivity
+        implements LoginFragment.LoginFragmentListener, CarouselFragment.CarouselFragmentListener,
         EmotionFragment.EmotionFragmentListener {
     public static final String SIGN_UP = "sign up";
     public static final String EMOTION = "emotion";
@@ -61,30 +61,6 @@ public class AuthActivity extends AppCompatActivity implements SignUpFragment.Si
 //        }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onSignUpSuccess(String email, String sandi) {
-        FragmentManager fm = getSupportFragmentManager();
-
-        fm.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                .replace(R.id.auth_fragment_container, LoginFragment.newInstance(email, sandi))
-                .addToBackStack(null)
-                .commit();
-    }
-
-    @Override
-    public void onLoginButtonPressed() {
-        FragmentManager fm = getSupportFragmentManager();
-
-        fm.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                /*.setCustomAnimations(R.anim.slide_in_from_right, 0,
-                        R.anim.slide_out_to_left, 0)*/ //TODO: animation?
-                .replace(R.id.auth_fragment_container, new LoginFragment())
-                .addToBackStack(null)
-                .commit();
     }
 
     @Override

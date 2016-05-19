@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +25,6 @@ public class SignUpFragment extends Fragment {
     private TextView buttonMasuk;
 
     private ProgressDialog progressDialog;
-    private SignUpFragmentListener signUpFragmentListener;
-
-    public interface SignUpFragmentListener {
-        public void onSignUpSuccess(String email, String sandi);
-        public void onLoginButtonPressed();
-    }
 
     public SignUpFragment() {
         // Required empty public constructor
@@ -78,10 +74,12 @@ public class SignUpFragment extends Fragment {
                 } else {
                     // All fields have been filled, add new user
                     progressDialog = ProgressDialog.show(getActivity(), "", "Daftar akun baru...");
-                    AuthenticationHandler.signUp(editTextNama.getText().toString(),
+                    AuthenticationHandler.signUp(
+                            editTextNama.getText().toString(),
                             editTextEmail.getText().toString(),
                             editTextSandi.getText().toString(),
-                            progressDialog, signUpFragmentListener);
+                            progressDialog,
+                            (AuthActivity) getActivity());
                 }
             }
         });
@@ -89,7 +87,14 @@ public class SignUpFragment extends Fragment {
         buttonMasuk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signUpFragmentListener.onLoginButtonPressed();
+                // signUpFragmentListener.onLoginButtonPressed();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+
+                fm.beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.auth_fragment_container, new LoginFragment())
+                        .addToBackStack(null)
+                        .commit();
             }
         });
     }
@@ -97,20 +102,10 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-        //Make sure that the container activity has implemented
-        //the interface
-        try {
-            signUpFragmentListener = (SignUpFragmentListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement SignUpFragmentListener methods");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        signUpFragmentListener = null;
     }
 }
