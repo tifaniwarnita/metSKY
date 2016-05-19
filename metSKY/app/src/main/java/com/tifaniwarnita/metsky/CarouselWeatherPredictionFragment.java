@@ -109,8 +109,14 @@ public class CarouselWeatherPredictionFragment extends Fragment {
         Log.d("CAROUSEL", "Update image view awan list size: " + imageViewAwanList.size());
 
         this.cuaca = cuaca;
+        Log.d("CAROUSEL", "Ini cuaca");
+        for(int i = 0; i<cuaca.getAwan().size(); i++) {
+            Log.d("CAROUSEL", "Ini cuaca ke-" + i + ": " + cuaca.getAwan().get(i));
+        }
         ArrayList<ArrayList<String>> awanWaktuList = cuaca.getSixAwanWaktu();
         for (int i=0; i<awanWaktuList.size(); i++) {
+            Log.d("CAROUSEL", "Cuaca[0] " + i + ": " + awanWaktuList.get(i).get(0));
+            Log.d("CAROUSEL", "Cuaca[1] " + i + ": " + awanWaktuList.get(i).get(1));
             Context context = imageViewAwanList.get(i).getContext();
             int id = context.getResources().getIdentifier("icon_" + awanWaktuList.get(i).get(1) + "64",
                     "drawable", context.getPackageName());

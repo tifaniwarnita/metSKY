@@ -28,6 +28,8 @@ import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.firebase.client.Firebase;
+import com.tifaniwarnita.metsky.controllers.AuthenticationHandler;
 import com.tifaniwarnita.metsky.controllers.CameraController;
 import com.tifaniwarnita.metsky.controllers.FirebaseConfig;
 import com.tifaniwarnita.metsky.controllers.FirebaseHandler;
@@ -68,8 +70,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setMetSkyTheme();
-
         super.onCreate(savedInstanceState);
+
+        // Initialize Firebase library
+        Firebase.setAndroidContext(this);
+        FirebaseConfig.initialize();
+        AuthenticationHandler.setActivity(this);
+        MetSkyPreferences.initialize(this);
+
         setContentView(R.layout.activity_main);
         currentActivity = this;
 
@@ -159,7 +167,7 @@ public class MainActivity extends AppCompatActivity
                         break;
                     case 1:     // Laporkan
                         break;
-                    case 2:     // Ubah Lokasi
+                    /*case 2:     // Ubah Lokasi
                         drawer.closeDrawer(Gravity.LEFT);
                         goToMenuUbahLokasi();
                         fm = getSupportFragmentManager();
@@ -167,17 +175,17 @@ public class MainActivity extends AppCompatActivity
                                 .replace(R.id.main_fragment_container, new LokasiFragment())
                                 .addToBackStack(null)
                                 .commit();
+                        break;*/
+                    case 2:     // Kenali Awan
                         break;
-                    case 3:     // Kenali Awan
-                        break;
-                    case 4:     // Tutorial Aplikasi
+                    case 3:     // Tutorial Aplikasi
                         drawer.closeDrawer(Gravity.LEFT);
                         // goToMenuTutorialAplikasi();
                         intent = new Intent(MainActivity.this, CarouselActivity.class);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         startActivity(intent);
                         break;
-                    case 5:     // Umpan Balik
+                    case 4:     // Umpan Balik
                         drawer.closeDrawer(Gravity.LEFT);
                         goToMenuUmpanBalik();
                         fm = getSupportFragmentManager();
@@ -186,7 +194,7 @@ public class MainActivity extends AppCompatActivity
                                 .addToBackStack(null)
                                 .commit();
                         break;
-                    case 6:     // Bagikan
+                    case 5:     // Bagikan
                         drawer.closeDrawer(Gravity.LEFT);
                         goToMenuBagikan();
                         fm = getSupportFragmentManager();
@@ -195,7 +203,7 @@ public class MainActivity extends AppCompatActivity
                                 .addToBackStack(null)
                                 .commit();
                         break;
-                    case 7:     // Profil
+                    case 6:     // Profil
                         break;
                 }
                 return false;
@@ -228,9 +236,9 @@ public class MainActivity extends AppCompatActivity
                                 break;
                         }
                         break;
-                    case 2:             // Ubah Lokasi
-                        break;
-                    case 3:
+                    /*case 2:             // Ubah Lokasi
+                        break;*/
+                    case 2:
                         switch (childPosition) {
                             case 0:     // Kenali Awan - Awan Rendah
                                 goToMenuKenaliAwanRendah();
@@ -261,13 +269,13 @@ public class MainActivity extends AppCompatActivity
                                 break;
                         }
                         break;
-                    case 4:             // Tutorial Aplikasi
+                    case 3:             // Tutorial Aplikasi
                         break;
-                    case 5:             // Umpan Balik
+                    case 4:             // Umpan Balik
                         break;
-                    case 6:             // Bagikan
+                    case 5:             // Bagikan
                         break;
-                    case 7:
+                    case 6:
                         switch (childPosition) {
                             case 0:     // Profil - metSKY
                                 goToMenuProfilMetSKY();
@@ -314,7 +322,7 @@ public class MainActivity extends AppCompatActivity
         ArrayList<String> icon = new ArrayList<>();
         headerTitle.add("WCPL Weather Report Map");
         headerTitle.add("Laporkan");
-        headerTitle.add("Ubah Lokasi");
+        // headerTitle.add("Ubah Lokasi");
         headerTitle.add("Kenali Awan");
         headerTitle.add("Tutorial Aplikasi");
         headerTitle.add("Umpan Balik");
@@ -349,8 +357,8 @@ public class MainActivity extends AppCompatActivity
         profil.add("Credits");
 
         listDataChild.put(listDataHeader.get(0).get(1), laporkan); // Header, Child data
-        listDataChild.put(listDataHeader.get(0).get(3), awan);
-        listDataChild.put(listDataHeader.get(0).get(7), profil);
+        listDataChild.put(listDataHeader.get(0).get(2), awan);
+        listDataChild.put(listDataHeader.get(0).get(6), profil);
     }
 
     @Override

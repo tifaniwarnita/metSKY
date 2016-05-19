@@ -45,7 +45,7 @@ public class CuacaSerializable implements Serializable {
         for(String s : tempWaktu) {
             this.waktu.add(new String(s));
         }
-        ArrayList<String> tempAwan = cuaca.getWaktu();
+        ArrayList<String> tempAwan = cuaca.getAwan();
         this.awan = new ArrayList<>(tempAwan.size());
         for(String a : tempAwan) {
             this.awan.add(new String(a));
@@ -144,4 +144,8 @@ public class CuacaSerializable implements Serializable {
     }
 
     public ArrayList<String> getWaktu() { return waktu; }
+
+    public ArrayList<String> getAwan() {
+        return awan;
+    }
 }

@@ -12,6 +12,9 @@ import com.tifaniwarnita.metsky.controllers.AuthenticationHandler;
 import com.tifaniwarnita.metsky.controllers.FirebaseConfig;
 import com.tifaniwarnita.metsky.controllers.MetSkyPreferences;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class SplashActivity extends AppCompatActivity {
     private boolean done = false;
 
@@ -27,35 +30,25 @@ public class SplashActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_splash);
 
-        final ImageView metSkyLogo = (ImageView) findViewById(R.id.logo_splash_metsky);
-        final Animation animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.rotate); // TODO: Change from animation
-
-        metSkyLogo.startAnimation(animation);
-        animation.setAnimationListener(new Animation.AnimationListener() {
+        new Timer().schedule(new TimerTask() {
             @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
+            public void run() {
                 finish();
-                done = true; //TODO EDIT SUPAYA GA KE DIA LAGI
                 // Check whether there's a user's been logged in or not
                 if (AuthenticationHandler.getUId() == null) { // no user
                     Intent intent = new Intent(SplashActivity.this, AuthActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     intent.putExtra("type", AuthActivity.SIGN_UP);
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     startActivity(intent);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 } else {
                     int emotion = MetSkyPreferences.getEmotion(getApplicationContext());
                     if (emotion == -1) { //no emotion
                         Intent intent = new Intent(SplashActivity.this, AuthActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         intent.putExtra("type", AuthActivity.EMOTION);
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     } else {
                         String param;
                         switch (emotion) {
@@ -86,12 +79,7 @@ public class SplashActivity extends AppCompatActivity {
                     }
                 }
             }
-
-            @Override
-            public void onAnimationRepeat (Animation animation){
-
-            }
-        });
+        }, 2000);
     }
 
     @Override

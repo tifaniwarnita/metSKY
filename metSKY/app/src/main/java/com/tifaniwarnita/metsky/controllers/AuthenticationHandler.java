@@ -22,6 +22,7 @@ import java.util.Map;
  * Created by Tifani on 2/18/2016.
  */
 public class AuthenticationHandler {
+    private static final String TAG = AuthenticationHandler.class.getSimpleName();
     private static AuthData authData = null;
     private static String message = "";
     private static Activity activity = null;
@@ -40,8 +41,10 @@ public class AuthenticationHandler {
     public static String getUId() {
         authData = FirebaseConfig.ref.getAuth();
         if (authData != null) {
+            Log.d(TAG, "FirebaseConfig.ref.getAuth() is not null");
             return authData.getUid();
         } else {
+            Log.d(TAG, "FirebaseConfig.ref.getAuth() return null");
             return null;
         }
     }
