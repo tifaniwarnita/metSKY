@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+   <!-- <group android:checkableBehavior="single">
+        <item android:id="@+id/nav_laporkan_foto" android:icon="@drawable/icon_laporkan"
+            android:title="Laporkan Foto" />
+        <item android:id="@+id/nav_laporkan_cuaca" android:icon="@drawable/icon_laporkan"
+            android:title="Laporkan Cuaca" />
+        <item android:id="@+id/nav_ubah_lokasi" android:icon="@drawable/icon_lokasi"
+            android:title="Ubah lokasi" />
+        <item android:id="@+id/nav_kenali_awan" android:icon="@drawable/icon_menu_kenali_awan"
+            android:title="Kenali awan" />
+        <item android:id="@+id/nav_tutorial" android:icon="@drawable/icon_menu_tutorial_aplikasi"
+            android:title="Tutorial aplikasi" />
+        <item android:id="@+id/nav_umpan_balik" android:icon="@drawable/icon_menu_umpan_balik"
+            android:title="Umpan balik" />
+        <item android:id="@+id/nav_bagikan" android:icon="@drawable/icon_menu_bagikan"
+            android:title="Bagikan" />
+        <item android:id="@+id/nav_profil" android:icon="@drawable/icon_menu_profil"
+            android:title="Profil" />
+    </group>-->
+
+</menu>

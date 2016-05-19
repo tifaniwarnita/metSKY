@@ -1,0 +1,68 @@
+apply plugin: 'com.android.application'
+
+def GOOGLE_APP_ID = '"' + GoogleAppId + '"' ?: '"Define Google App Id"';
+def FACEBOOK_APP_ID = '"' + FacebookAppId + '"' ?: '"Define Facebook App Id"';
+def TWITTER_CONSUMER_KEY = '"' + TwitterConsumerKey + '"' ?: '"Define Twitter Consumer Key"';
+def TWITTER_CONSUMER_SECRET = '"' + TwitterConsumerSecret + '"' ?: '"Define Twitter Consumer Secret"';
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+    useLibrary 'org.apache.http.legacy'
+
+    defaultConfig {
+        applicationId "com.tifaniwarnita.metsky"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+    }
+    buildTypes {
+        debug {
+            resValue "string", "facebook_app_id", FACEBOOK_APP_ID
+            resValue "string", "twitter_consumer_key", TWITTER_CONSUMER_KEY
+            resValue "string", "twitter_consumer_secret", TWITTER_CONSUMER_SECRET
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "facebook_app_id", FACEBOOK_APP_ID
+            resValue "string", "twitter_consumer_key", TWITTER_CONSUMER_KEY
+            resValue "string", "twitter_consumer_secret", TWITTER_CONSUMER_SECRET
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE-FIREBASE.txt'
+        exclude 'META-INF/NOTICE'
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:design:23.3.0'
+    compile 'com.firebase:firebase-client-android:2.5.2'
+    compile 'pl.charmas.android:android-reactive-location:0.8@aar'
+    compile 'com.google.android.gms:play-services-location:8.4.0'
+    compile 'com.google.android.gms:play-services-auth:8.4.0'
+    compile 'com.google.android.gms:play-services-plus:8.4.0'
+    compile 'io.reactivex:rxjava:1.0.14'
+    compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.squareup.picasso:picasso:2.3.2'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.slider:library:1.1.5@aar'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'fr.avianey.com.viewpagerindicator:library:2.4.1.1@aar'
+    compile 'org.jsoup:jsoup:1.8.3'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    compile 'com.facebook.android:facebook-android-sdk:4.+'
+    compile('com.twitter.sdk.android:twitter:1.13.1@aar') {
+        transitive = true
+    }
+}
+
+apply plugin: 'com.google.gms.google-services'

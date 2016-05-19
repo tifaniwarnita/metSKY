@@ -1,0 +1,34 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tifaniwarnita.metsky.MetSKYCreditsFragment"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="?baseColor"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="metSKYCredits"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAlignment="center"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tim Pengembangan Sistem Prediksi Cuaca WCPL\nDr. Tri Wahyu Hadi\nDr. Nurjanna ‘Joe’ Joko T.\nI Dewa Gede A. Junnaedhi, M.Si.\nM. Ridho Syahputra, M.Si.\n\nSoftware Developer:\nFikri Rozi (Meteorologi 2012)\nemail : fikri.rozi@meteo.itb.ac.id\n\nTifani Warnita (Teknik Informatika 2013)\n\nKonten awan di ambil dari:\nhttp://www.metoffice.gov.uk/learning/clouds\n\nIkon diambil dari:\nwww.flaticon.com\ndesign.google.com/icons/\n\nHak cipta Meteorologi ITB 2016"
+            android:textColor="@android:color/white"/>
+
+    </ScrollView>
+
+</LinearLayout>

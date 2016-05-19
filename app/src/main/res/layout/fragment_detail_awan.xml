@@ -1,0 +1,174 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?baseColor"
+    tools:context="com.tifaniwarnita.metsky.DetailAwanFragment"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="?baseDarkColor"
+        android:gravity="center_vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:adjustViewBounds="true"
+            android:src="@drawable/icon_menu_kenali_awan"/>
+
+        <TextView
+            android:id="@+id/detail_awan_nama"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Cumolonimbus"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/detail_awan_deskripsi_singkat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="Awan Cumulus yang besar, padat, menjulang tinggi berbentuk gumpalan besar."/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:textColor="@android:color/white"
+                    android:text="Ketinggian dasar awan"/>
+
+                <TextView
+                    android:id="@+id/detail_awan_ketinggian"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:textColor="@android:color/white"
+                    android:text=": 100 - 600 meter"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:textColor="@android:color/white"
+                    android:text="Bentuk"/>
+
+                <TextView
+                    android:id="@+id/detail_awan_bentuk"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:textColor="@android:color/white"
+                    android:text=": tepi atas berserat"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:textColor="@android:color/white"
+                    android:text="Nama Latin"/>
+
+                <TextView
+                    android:id="@+id/detail_awan_nama_latin"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:textColor="@android:color/white"
+                    android:text=": cumulus - heap"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:textColor="@android:color/white"
+                    android:text="Prespitasi"/>
+
+                <TextView
+                    android:id="@+id/detail_awan_prespitasi"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:textColor="@android:color/white"
+                    android:text=": hujan lebat"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/detail_awan_gambar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true"
+                android:src="@drawable/cumulonimbus"/>
+
+            <TextView
+                android:id="@+id/detail_awan_sumber_gambar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textSize="11sp"
+                android:textAlignment="center"
+                android:text="http://www.metoffice.gov.uk/learning/clouds/low-level-clouds/cumulonimbus"/>
+
+            <TextView
+                android:id="@+id/detail_awan_deskripsi_lengkap"
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="Dasar awannya datar dan sangat gelap. Berjarak antara 100 - 600 m saja dari permukaan dengan puncaknya dapat mencapai ketinggian 15.000 meter Awan ini dikaikan dengan cuaca ekstrem seperti hujan lebat, hail storms, petir, dan angin ribut."/>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
