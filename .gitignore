@@ -31,5 +31,12 @@ proguard/
 # Android Studio captures folder
 captures/
 
-metSKY/gradle.properties
-metSKY/app/google-services.json
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+gradle.properties
+app/google-services.json
