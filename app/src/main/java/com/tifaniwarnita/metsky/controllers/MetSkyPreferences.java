@@ -16,6 +16,7 @@ public class MetSkyPreferences {
     private static final String METSKY_SETTINGS = "com.tifaniwarnita.metsky.metSkySettings";
     private static final String EMOTION_SETTING = "emotion";
     private static final String DATE_SETTING = "date";
+    private static final String ID_SETTING = "id";
     private static final String NAMA_SETTING = "name";
     private static final String LATITUDE_SETTING = "latitude";
     private static final String LONGITUDE_SETTING = "longitude";
@@ -57,6 +58,28 @@ public class MetSkyPreferences {
             SharedPreferences.Editor editor = settings.edit();
             editor.putInt(EMOTION_SETTING, emotion);
             editor.putInt(DATE_SETTING, today);
+            editor.commit();
+        }
+    }
+
+    public static String getId(Context context) {
+        if (context != null) {
+            SharedPreferences settings = context.getSharedPreferences(METSKY_SETTINGS, 0);
+            String id = settings.getString(ID_SETTING, null);
+            if (id.equals(""))
+                return null;
+            else
+                return id;
+        } else {
+            return null;
+        }
+    }
+
+    public static void setId(Context context, String id) {
+        if (context != null) {
+            SharedPreferences settings = context.getSharedPreferences(METSKY_SETTINGS, 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString(ID_SETTING, id);
             editor.commit();
         }
     }

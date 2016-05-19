@@ -331,7 +331,6 @@ public class MainActivity extends AppCompatActivity
 
         icon.add("icon_lokasi");
         icon.add("icon_laporkan");
-        icon.add("icon_lokasi");
         icon.add("icon_menu_kenali_awan");
         icon.add("icon_menu_tutorial_aplikasi");
         icon.add("icon_menu_umpan_balik");

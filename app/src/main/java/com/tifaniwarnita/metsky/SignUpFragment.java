@@ -75,11 +75,11 @@ public class SignUpFragment extends Fragment {
                     // All fields have been filled, add new user
                     progressDialog = ProgressDialog.show(getActivity(), "", "Daftar akun baru...");
                     AuthenticationHandler.signUp(
+                            (AuthActivity) getActivity(),
+                            progressDialog,
                             editTextNama.getText().toString(),
                             editTextEmail.getText().toString(),
-                            editTextSandi.getText().toString(),
-                            progressDialog,
-                            (AuthActivity) getActivity());
+                            editTextSandi.getText().toString());
                 }
             }
         });

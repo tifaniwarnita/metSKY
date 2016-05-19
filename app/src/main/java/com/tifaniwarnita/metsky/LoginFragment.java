@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
 import com.tifaniwarnita.metsky.controllers.AuthenticationHandler;
 
 
@@ -27,11 +28,6 @@ public class LoginFragment extends Fragment {
     private Button buttonMasuk;
 
     private ProgressDialog progressDialog;
-    private LoginFragmentListener loginFragmentListener;
-
-    public interface LoginFragmentListener {
-        public void onLoginSuccess();
-    }
 
     public static LoginFragment newInstance(String email, String sandi) {
         LoginFragment fragment = new LoginFragment();
@@ -85,11 +81,11 @@ public class LoginFragment extends Fragment {
                     // All fields have been filled, login
                     progressDialog = ProgressDialog.show(getActivity(), "", "Masuk...");
                     AuthenticationHandler.login(
-                            editTextEmail.getText().toString(),
-                            editTextSandi.getText().toString(),
+                            getContext(),
+                            (AuthActivity) getActivity(),
                             progressDialog,
-                            loginFragmentListener,
-                            getContext());
+                            editTextEmail.getText().toString(),
+                            editTextSandi.getText().toString());
                 }
             }
         });
@@ -98,20 +94,11 @@ public class LoginFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        //Make sure that the container activity has implemented
-        //the interface
-        try {
-            loginFragmentListener = (LoginFragmentListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement LoginFragmentListener methods");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        loginFragmentListener = null;
     }
 
 }

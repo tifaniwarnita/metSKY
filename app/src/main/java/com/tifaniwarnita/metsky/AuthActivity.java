@@ -12,7 +12,7 @@ import com.tifaniwarnita.metsky.controllers.AuthenticationHandler;
 import com.tifaniwarnita.metsky.controllers.MetSkyPreferences;
 
 public class AuthActivity extends AppCompatActivity
-        implements LoginFragment.LoginFragmentListener, CarouselFragment.CarouselFragmentListener,
+        implements CarouselFragment.CarouselFragmentListener,
         EmotionFragment.EmotionFragmentListener {
     public static final String SIGN_UP = "sign up";
     public static final String EMOTION = "emotion";
@@ -64,16 +64,6 @@ public class AuthActivity extends AppCompatActivity
     }
 
     @Override
-    public void onLoginSuccess() {
-        FragmentManager fm = getSupportFragmentManager();
-        clearScreenStack();
-        fm.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE)
-                .replace(R.id.auth_fragment_container, new CarouselFragment())
-                .commit();
-    }
-
-    @Override
     public void onLanjutButtonPressed() {
         goToEmotionScreen();
     }
@@ -117,7 +107,7 @@ public class AuthActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    private void clearScreenStack() {
+    public void clearScreenStack() {
         FragmentManager fm = getSupportFragmentManager();
         for(int i = 0; i < fm.getBackStackEntryCount(); ++i) {
             fm.popBackStack();
