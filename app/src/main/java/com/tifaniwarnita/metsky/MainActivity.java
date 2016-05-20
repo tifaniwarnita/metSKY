@@ -53,8 +53,7 @@ public class MainActivity extends AppCompatActivity
         AmbilFotoFragment.AmbilFotoFragmentListener,
         KeadaanCuacaFragment.KeadaanCuacaFragmentListener,
         LocationListener,
-        MainActivityListener,
-        DaftarAwanFragment.DaftarAwanFragmentListener {
+        MainActivityListener {
 
     private Cuaca cuaca;
     private HomeFragment homeFragment;
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setMetSkyTheme();
+        MetSkyPreferences.setMetSkyTheme(this);
         super.onCreate(savedInstanceState);
 
         // Initialize Firebase library
@@ -163,7 +162,7 @@ public class MainActivity extends AppCompatActivity
                         drawer.closeDrawer(Gravity.LEFT);
                         intent = new Intent(MainActivity.this, ReportMapActivity.class);
                         startActivity(intent);
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        // overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         break;
                     case 1:     // Laporkan
                         break;
@@ -182,8 +181,8 @@ public class MainActivity extends AppCompatActivity
                         drawer.closeDrawer(Gravity.LEFT);
                         // goToMenuTutorialAplikasi();
                         intent = new Intent(MainActivity.this, CarouselActivity.class);
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         startActivity(intent);
+                        // overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         break;
                     case 4:     // Umpan Balik
                         drawer.closeDrawer(Gravity.LEFT);
@@ -239,35 +238,20 @@ public class MainActivity extends AppCompatActivity
                     /*case 2:             // Ubah Lokasi
                         break;*/
                     case 2:
+                        Intent intent = new Intent(MainActivity.this, KenaliAwanActivity.class);
                         switch (childPosition) {
                             case 0:     // Kenali Awan - Awan Rendah
-                                goToMenuKenaliAwanRendah();
-                                fm = getSupportFragmentManager();
-                                fm.beginTransaction()
-                                        .replace(R.id.main_fragment_container,
-                                                DaftarAwanFragment.newInstance( getResources().getString(R.string.awan_rendah)))
-                                        .addToBackStack(null)
-                                        .commit();
+                                intent.putExtra(KenaliAwanActivity.JENIS_AWAN, getResources().getString(R.string.awan_rendah));
                                 break;
                             case 1:     // Kenali Awan - Awan Sedang
-                                goToMenuKenaliAwanSedang();
-                                fm = getSupportFragmentManager();
-                                fm.beginTransaction()
-                                        .replace(R.id.main_fragment_container,
-                                                DaftarAwanFragment.newInstance( getResources().getString(R.string.awan_sedang)))
-                                        .addToBackStack(null)
-                                        .commit();
+                                intent.putExtra(KenaliAwanActivity.JENIS_AWAN, getResources().getString(R.string.awan_sedang));
                                 break;
                             case 2:     // Kenali Awan - Awan Tinggi
-                                goToMenuKenaliAwanTinggi();
-                                fm = getSupportFragmentManager();
-                                fm.beginTransaction()
-                                        .replace(R.id.main_fragment_container,
-                                                DaftarAwanFragment.newInstance( getResources().getString(R.string.awan_tinggi)))
-                                        .addToBackStack(null)
-                                        .commit();
+                                intent.putExtra(KenaliAwanActivity.JENIS_AWAN, getResources().getString(R.string.awan_tinggi));
                                 break;
                         }
+                        startActivity(intent);
+                        // overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         break;
                     case 3:             // Tutorial Aplikasi
                         break;
@@ -424,29 +408,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void setMetSkyTheme() {
-        int emotion = MetSkyPreferences.getEmotion(getApplicationContext());
-        switch (emotion) {
-            case EmotionFragment.EMOTION_TWINK:
-                setTheme(R.style.AppTheme_Blue);
-                break;
-            case EmotionFragment.EMOTION_SURPRISED:
-                setTheme(R.style.AppTheme_LightBlue);
-                break;
-            case EmotionFragment.EMOTION_HAPPY:
-                setTheme(R.style.AppTheme_Orange);
-                break;
-            case EmotionFragment.EMOTION_FLAT:
-                setTheme(R.style.AppTheme_Green);
-                break;
-            case EmotionFragment.EMOTION_ANGRY:
-                setTheme(R.style.AppTheme_Red);
-                break;
-            default:
-                break;
-        }
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CameraController.REQUEST_TAKE_PHOTO) {
@@ -554,38 +515,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void goToMenuKenaliAwanRendah() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Awan Rendah");
-        toggle.setDrawerIndicatorEnabled(false);
-    }
-
-    @Override
-    public void goToMenuKenaliAwanSedang() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Awan Sedang");
-        toggle.setDrawerIndicatorEnabled(false);
-    }
-
-    @Override
-    public void goToMenuKenaliAwanTinggi() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Awan Sedang");
-        toggle.setDrawerIndicatorEnabled(false);
-    }
-
-    @Override
-    public void goToMenuKenaliAwanLainnya() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Awan Lainnya");
-        toggle.setDrawerIndicatorEnabled(false);
-    }
-
-    @Override
     public void goToMenuTutorialAplikasi() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -632,16 +561,5 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Credits");
         toggle.setDrawerIndicatorEnabled(false);
-    }
-
-    @Override
-    public void onAwanClicked(String namaAwan) {
-        System.out.println(namaAwan);
-        FragmentManager fm = getSupportFragmentManager();
-        fm.beginTransaction()
-                .replace(R.id.main_fragment_container,
-                        DetailAwanFragment.newInstance(namaAwan))
-                .addToBackStack(null)
-                .commit();
     }
 }

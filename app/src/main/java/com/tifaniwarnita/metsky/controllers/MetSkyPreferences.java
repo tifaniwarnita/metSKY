@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.tifaniwarnita.metsky.EmotionFragment;
+import com.tifaniwarnita.metsky.R;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -133,6 +136,29 @@ public class MetSkyPreferences {
             return longitude;
         } else {
             return null;
+        }
+    }
+
+    public static void setMetSkyTheme(Activity activity) {
+        int emotion = MetSkyPreferences.getEmotion(activity.getApplicationContext());
+        switch (emotion) {
+            case EmotionFragment.EMOTION_TWINK:
+                activity.setTheme(R.style.AppTheme_Blue);
+                break;
+            case EmotionFragment.EMOTION_SURPRISED:
+                activity.setTheme(R.style.AppTheme_LightBlue);
+                break;
+            case EmotionFragment.EMOTION_HAPPY:
+                activity.setTheme(R.style.AppTheme_Orange);
+                break;
+            case EmotionFragment.EMOTION_FLAT:
+                activity.setTheme(R.style.AppTheme_Green);
+                break;
+            case EmotionFragment.EMOTION_ANGRY:
+                activity.setTheme(R.style.AppTheme_Red);
+                break;
+            default:
+                break;
         }
     }
 

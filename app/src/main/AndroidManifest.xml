@@ -73,6 +73,15 @@
         <activity
             android:name=".ReportMapActivity"
             android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".KenaliAwanActivity"
+            android:label="@string/title_activity_kenali_awan"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tifaniwarnita.metsky.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

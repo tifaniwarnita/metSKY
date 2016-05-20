@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +20,6 @@ import java.util.ArrayList;
 public class DaftarAwanFragment extends Fragment {
     private static final String ARG_JENIS_AWAN_PARAM = "jenis awan";
     private String jenisAwanParam;
-
-    private DaftarAwanFragmentListener fragmentListener;
-    private MainActivityListener mainActivityListener;
-
-    public interface DaftarAwanFragmentListener {
-        void onAwanClicked(String namaAwan);
-    }
 
     public DaftarAwanFragment() {
         // Required empty public constructor
@@ -69,7 +63,12 @@ public class DaftarAwanFragment extends Fragment {
             daftarAwanView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    fragmentListener.onAwanClicked(awan);
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    fm.beginTransaction()
+                            .replace(R.id.kenali_awan_fragment_container,
+                                    DetailAwanFragment.newInstance(awan))
+                            .addToBackStack(null)
+                            .commit();
                 }
             });
             daftarAwanContainer.addView(daftarAwanView);
@@ -80,20 +79,10 @@ public class DaftarAwanFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof DaftarAwanFragmentListener) {
-            fragmentListener = (DaftarAwanFragmentListener) context;
-            mainActivityListener = (MainActivityListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        fragmentListener = null;
-        mainActivityListener.backToMainActivity();
-        mainActivityListener = null;
     }
 }

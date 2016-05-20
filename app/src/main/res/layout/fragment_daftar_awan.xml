@@ -2,13 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tifaniwarnita.metsky.DaftarAwanFragment"
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="?baseColor"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:paddingBottom="10dp">
+    android:paddingBottom="10dp"
+    tools:context="com.tifaniwarnita.metsky.DaftarAwanFragment"
+    tools:showIn="@layout/activity_kenali_awan">
 
     <ScrollView
         android:layout_width="match_parent"

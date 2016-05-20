@@ -18,7 +18,6 @@ import java.io.IOException;
 
 public class DetailAwanFragment extends Fragment {
     private static final String ARG_NAMA_AWAN = "nama awan";
-    private MainActivityListener mainActivityListener;
 
     private String namaAwan;
 
@@ -74,19 +73,10 @@ public class DetailAwanFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        try {
-            mainActivityListener = (MainActivityListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override
     public void onDetach() {
-
         super.onDetach();
-        // mainActivityListener.backToMainActivity();
-        mainActivityListener = null;
     }
 }
