@@ -7,9 +7,6 @@ public interface MainActivityListener {
     public void backToMainActivity();
     public void goToMenuAmbilFoto();
     public void goToMenuKeadaanCuaca();
-    public void goToMenuUbahLokasi();
-    public void goToMenuTutorialAplikasi();
-    public void goToMenuUmpanBalik();
     public void goToMenuBagikan();
     public void goToMenuProfilMetSKY();
     public void goToMenuProfilWCPL();

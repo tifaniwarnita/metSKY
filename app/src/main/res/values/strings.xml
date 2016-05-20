@@ -16,5 +16,7 @@
     <string name="awan_rendah">Awan Rendah</string>
     <string name="awan_sedang">Awan Sedang</string>
     <string name="awan_tinggi">Awan Tinggi</string>
-    <string name="title_activity_kenali_awan">KenaliAwanActivity</string>
+
+    <string name="title_activity_kenali_awan">Kenali Awan</string>
+    <string name="title_activity_umpan_balik">Umpan Balik</string>
 </resources>

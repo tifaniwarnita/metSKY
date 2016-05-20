@@ -82,6 +82,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tifaniwarnita.metsky.MainActivity" />
         </activity>
+        <activity
+            android:name=".UmpanBalikActivity"
+            android:label="@string/title_activity_umpan_balik"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tifaniwarnita.metsky.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

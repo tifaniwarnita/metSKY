@@ -179,19 +179,13 @@ public class MainActivity extends AppCompatActivity
                         break;
                     case 3:     // Tutorial Aplikasi
                         drawer.closeDrawer(Gravity.LEFT);
-                        // goToMenuTutorialAplikasi();
                         intent = new Intent(MainActivity.this, CarouselActivity.class);
                         startActivity(intent);
-                        // overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                         break;
                     case 4:     // Umpan Balik
                         drawer.closeDrawer(Gravity.LEFT);
-                        goToMenuUmpanBalik();
-                        fm = getSupportFragmentManager();
-                        fm.beginTransaction()
-                                .replace(R.id.main_fragment_container, new UmpanBalikFragment())
-                                .addToBackStack(null)
-                                .commit();
+                        intent = new Intent(MainActivity.this, UmpanBalikActivity.class);
+                        startActivity(intent);
                         break;
                     case 5:     // Bagikan
                         drawer.closeDrawer(Gravity.LEFT);
@@ -503,30 +497,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Keadaan Cuaca");
-        toggle.setDrawerIndicatorEnabled(false);
-    }
-
-    @Override
-    public void goToMenuUbahLokasi() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Ubah Lokasi");
-        toggle.setDrawerIndicatorEnabled(false);
-    }
-
-    @Override
-    public void goToMenuTutorialAplikasi() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Tutorial Aplikasi");
-        toggle.setDrawerIndicatorEnabled(false);
-    }
-
-    @Override
-    public void goToMenuUmpanBalik() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Umpan Balik");
         toggle.setDrawerIndicatorEnabled(false);
     }
 
