@@ -100,6 +100,33 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.home.MainActivity" />
         </activity>
+        <activity
+            android:name=".views.profil.ProfilMetSKYActivity"
+            android:label="@string/title_activity_profil_met_sky"
+            android:parentActivityName=".views.home.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tifaniwarnita.metsky.views.home.MainActivity" />
+        </activity>
+        <activity
+            android:name=".views.profil.ProfilWCPLActivity"
+            android:label="@string/title_activity_profil_wcpl"
+            android:parentActivityName=".views.home.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tifaniwarnita.metsky.views.home.MainActivity" />
+        </activity>
+        <activity
+            android:name=".views.profil.MetSKYCreditsActivity"
+            android:label="@string/title_activity_met_skycredits"
+            android:parentActivityName=".views.home.MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tifaniwarnita.metsky.views.home.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

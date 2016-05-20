@@ -2,11 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tifaniwarnita.metsky.ProfilWCPLFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="?baseColor"
-    android:padding="16dp">
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.tifaniwarnita.metsky.views.profil.ProfilWCPLActivity"
+    tools:showIn="@layout/activity_profil_wcpl">
 
     <ImageView
         android:id="@+id/signup_logo_splash_metsky"
@@ -14,6 +20,7 @@
         android:layout_height="100dp"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
+        android:layout_marginBottom="24dp"
         android:src="@drawable/logo_wcpl36px" />
 
     <ScrollView
@@ -26,7 +33,6 @@
             android:layout_height="wrap_content"
             android:text="Nama resmi WCPL adalah Laboratorium Analisis Meteorologi. Secara organisasi Laboratorium Analisis Meteorologi berada di bawah Fakultas Ilmu dan Teknologi Kebumian Institut Teknologi Bandung yang pengelolaannya dilakukan secara terkoordinasi dengan Program Studi Meteorologi. Laboratorium Analisis Meteorologi menyelenggarakan beberapa praktikum untuk mahasiswa, terutama yang berkaitan dengan pemodelan meteorologi dan prediksi cuaca dan iklim secara numerik. Laboratorium ini juga melaksanakan kegiatan pengolahan data cuaca dan iklim yang hasilnya dapat digunakan untuk penelitian dosen dan mahasiswa. Selain itu, laboratorium ini juga menjalankan eksperimen prediksi cuaca harian untuk wilayah Indonesia dengan menggunakan model-model numerik.\n\nLaboratorium Prediksi Cuaca dan Iklim menyediakan sarana dan data untuk keperluan penelitian di bidang meteorologi dan klimatologi, terutama yang berkaitan dengan pemodelan atmosfer, prediksi cuaca dan iklim serta analisis cuaca dan iklim. Laboratorium Analisis Meteorologi juga terlibat aktif dalam kegiatan kerjasama penelitian internasional (International Research for Prevention and Mitigation of Meteorological Disaster in Southeast Asia) yang dipimpin oleh Prof. Shigeo YODEN dari Kyoto University\n\nWCPL menyediakan sistem informasi monitoring dan prediksi cuaca (eksperimental) di wilayah Indonesia yang bisa diakses oleh masyarakat luas melalui internet di situs weather.meteo.itb.ac.id. Selain itu WCPL juga berperan aktif mendukung kegiatan pengabdian masyarakat yang bertemakan adaptasi perubahan iklim.\n\nInformasi lebih lanjut dapat menghubungi:\nLabtek XI, Program Studi Meteorologi Fakultas Ilmu dan Teknologi Kebumian, Institut Teknologi Bandung\nEmail   : wcpl(at)meteo.itb.ac.id\nTelp.   : (022)  2500 494"
             android:textColor="@android:color/white"/>
-
     </ScrollView>
 
 </LinearLayout>

@@ -33,9 +33,6 @@ import com.tifaniwarnita.metsky.CarouselActivity;
 import com.tifaniwarnita.metsky.HomeFragment;
 import com.tifaniwarnita.metsky.KeadaanCuacaFragment;
 import com.tifaniwarnita.metsky.views.kenaliawan.KenaliAwanActivity;
-import com.tifaniwarnita.metsky.MetSKYCreditsFragment;
-import com.tifaniwarnita.metsky.ProfilMetSKYFragment;
-import com.tifaniwarnita.metsky.ProfilWCPLFragment;
 import com.tifaniwarnita.metsky.R;
 import com.tifaniwarnita.metsky.ReportMapActivity;
 import com.tifaniwarnita.metsky.ShowNotification;
@@ -47,6 +44,9 @@ import com.tifaniwarnita.metsky.controllers.FirebaseConfig;
 import com.tifaniwarnita.metsky.controllers.FirebaseHandler;
 import com.tifaniwarnita.metsky.controllers.MetSkyPreferences;
 import com.tifaniwarnita.metsky.models.Cuaca;
+import com.tifaniwarnita.metsky.views.profil.MetSKYCreditsActivity;
+import com.tifaniwarnita.metsky.views.profil.ProfilMetSKYActivity;
+import com.tifaniwarnita.metsky.views.profil.ProfilWCPLActivity;
 import com.tifaniwarnita.metsky.views.templates.ExpandableListAdapter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import com.twitter.sdk.android.core.TwitterCore;
@@ -264,28 +264,16 @@ public class MainActivity extends AppCompatActivity
                     case 6:
                         switch (childPosition) {
                             case 0:     // Profil - metSKY
-                                goToMenuProfilMetSKY();
-                                fm = getSupportFragmentManager();
-                                fm.beginTransaction()
-                                        .replace(R.id.main_fragment_container, new ProfilMetSKYFragment())
-                                        .addToBackStack(null)
-                                        .commit();
+                                intent = new Intent(MainActivity.this, ProfilMetSKYActivity.class);
+                                startActivity(intent);
                                 break;
                             case 1:     // Profil - WCPL
-                                goToMenuProfilWCPL();
-                                fm = getSupportFragmentManager();
-                                fm.beginTransaction()
-                                        .replace(R.id.main_fragment_container, new ProfilWCPLFragment())
-                                        .addToBackStack(null)
-                                        .commit();
+                                intent = new Intent(MainActivity.this, ProfilWCPLActivity.class);
+                                startActivity(intent);
                                 break;
                             case 2:     // Profil - Credits
-                                goToMenuCredits();
-                                fm = getSupportFragmentManager();
-                                fm.beginTransaction()
-                                        .replace(R.id.main_fragment_container, new MetSKYCreditsFragment())
-                                        .addToBackStack(null)
-                                        .commit();
+                                intent = new Intent(MainActivity.this, MetSKYCreditsActivity.class);
+                                startActivity(intent);
                                 break;
                         }
                         break;
@@ -505,31 +493,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Keadaan Cuaca");
-        toggle.setDrawerIndicatorEnabled(false);
-    }
-
-    @Override
-    public void goToMenuProfilMetSKY() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Profil met.SKY");
-        toggle.setDrawerIndicatorEnabled(false);
-    }
-
-    @Override
-    public void goToMenuProfilWCPL() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Profil WCPL");
-        toggle.setDrawerIndicatorEnabled(false);
-    }
-
-
-    @Override
-    public void goToMenuCredits() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Credits");
         toggle.setDrawerIndicatorEnabled(false);
     }
 }
