@@ -1,4 +1,4 @@
-package com.tifaniwarnita.metsky;
+package com.tifaniwarnita.metsky.views.auth;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+import com.tifaniwarnita.metsky.R;
 
 import java.util.HashMap;
 

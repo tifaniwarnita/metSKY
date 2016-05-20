@@ -14,11 +14,10 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.tifaniwarnita.metsky.AuthActivity;
-import com.tifaniwarnita.metsky.CarouselFragment;
-import com.tifaniwarnita.metsky.LoginFragment;
+import com.tifaniwarnita.metsky.views.auth.AuthActivity;
+import com.tifaniwarnita.metsky.views.auth.CarouselFragment;
+import com.tifaniwarnita.metsky.views.auth.LoginFragment;
 import com.tifaniwarnita.metsky.R;
-import com.tifaniwarnita.metsky.SignUpFragment;
 
 import java.util.HashMap;
 import java.util.Map;

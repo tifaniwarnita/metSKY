@@ -1,7 +1,6 @@
-package com.tifaniwarnita.metsky;
+package com.tifaniwarnita.metsky.views.kenaliawan;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.tifaniwarnita.metsky.R;
 import com.tifaniwarnita.metsky.controllers.DatabaseHandler;
 import com.tifaniwarnita.metsky.models.Awan;
 

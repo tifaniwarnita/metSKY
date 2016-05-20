@@ -14,12 +14,10 @@ import android.widget.Button;
 import com.facebook.CallbackManager;
 import com.facebook.share.model.ShareHashtag;
 import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.ShareButton;
 import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.plus.PlusShare;
+import com.tifaniwarnita.metsky.views.home.MainActivityListener;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
-
-import java.io.File;
 
 
 public class BagikanFragment extends Fragment {

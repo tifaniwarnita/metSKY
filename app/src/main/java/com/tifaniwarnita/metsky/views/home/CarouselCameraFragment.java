@@ -1,4 +1,4 @@
-package com.tifaniwarnita.metsky;
+package com.tifaniwarnita.metsky.views.home;
 
 import android.app.Activity;
 import android.net.Uri;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
+import com.tifaniwarnita.metsky.R;
 
 
 public class CarouselCameraFragment extends Fragment {

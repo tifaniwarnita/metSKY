@@ -1,4 +1,4 @@
-package com.tifaniwarnita.metsky.views;
+package com.tifaniwarnita.metsky.views.templates;
 
 import android.content.Context;
 import android.view.LayoutInflater;

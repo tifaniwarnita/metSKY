@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context="com.tifaniwarnita.metsky.CarouselFragment">
+    tools:context=".views.auth.CarouselFragment">
 
     <ImageView
         android:id="@+id/signup_logo_splash_metsky"

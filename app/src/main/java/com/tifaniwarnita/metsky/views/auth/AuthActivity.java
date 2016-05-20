@@ -1,15 +1,17 @@
-package com.tifaniwarnita.metsky;
+package com.tifaniwarnita.metsky.views.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.tifaniwarnita.metsky.EmotionFragment;
+import com.tifaniwarnita.metsky.R;
 import com.tifaniwarnita.metsky.controllers.AuthenticationHandler;
 import com.tifaniwarnita.metsky.controllers.MetSkyPreferences;
+import com.tifaniwarnita.metsky.views.home.MainActivity;
 
 public class AuthActivity extends AppCompatActivity
         implements CarouselFragment.CarouselFragmentListener,

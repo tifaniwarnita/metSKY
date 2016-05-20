@@ -1,4 +1,4 @@
-package com.tifaniwarnita.metsky;
+package com.tifaniwarnita.metsky.views.home;
 
 
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tifaniwarnita.metsky.models.Cuaca;
+import com.tifaniwarnita.metsky.R;
 import com.tifaniwarnita.metsky.models.CuacaSerializable;
 
 import java.text.DateFormat;

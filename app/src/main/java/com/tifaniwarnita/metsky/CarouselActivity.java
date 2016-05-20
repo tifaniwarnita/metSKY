@@ -7,6 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.tifaniwarnita.metsky.controllers.MetSkyPreferences;
+import com.tifaniwarnita.metsky.views.auth.AuthActivity;
+import com.tifaniwarnita.metsky.views.auth.CarouselFragment;
+import com.tifaniwarnita.metsky.views.home.MainActivity;
 
 public class CarouselActivity extends AppCompatActivity
         implements CarouselFragment.CarouselFragmentListener {

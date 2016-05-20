@@ -22,7 +22,7 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".AuthActivity"
+            android:name=".views.auth.AuthActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -44,7 +44,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".views.home.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -72,33 +72,33 @@
 
         <activity
             android:name=".ReportMapActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".views.home.MainActivity" />
         <activity
-            android:name=".KenaliAwanActivity"
+            android:name=".views.kenaliawan.KenaliAwanActivity"
             android:label="@string/title_activity_kenali_awan"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".views.home.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tifaniwarnita.metsky.MainActivity" />
+                android:value=".views.home.MainActivity" />
         </activity>
         <activity
             android:name=".UmpanBalikActivity"
             android:label="@string/title_activity_umpan_balik"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".views.home.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tifaniwarnita.metsky.MainActivity" />
+                android:value=".views.home.MainActivity" />
         </activity>
         <activity
             android:name=".BagikanActivity"
             android:label="@string/title_activity_bagikan"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".views.home.MainActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tifaniwarnita.metsky.MainActivity" />
+                android:value=".views.home.MainActivity" />
         </activity>
     </application>
 

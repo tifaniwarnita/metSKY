@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?baseColor"
-    tools:context="com.tifaniwarnita.metsky.DetailAwanFragment"
+    tools:context=".views.kenaliawan.DetailAwanFragment"
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"

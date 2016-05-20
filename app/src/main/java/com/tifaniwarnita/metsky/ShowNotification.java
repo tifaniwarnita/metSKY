@@ -11,6 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.tifaniwarnita.metsky.controllers.MetSkyPreferences;
+import com.tifaniwarnita.metsky.views.home.MainActivity;
 
 /**
  * Created by Tifani on 5/15/2016.

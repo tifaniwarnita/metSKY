@@ -1,4 +1,4 @@
-package com.tifaniwarnita.metsky;
+package com.tifaniwarnita.metsky.views.home;
 
 
 import android.graphics.Color;
@@ -9,14 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import com.tifaniwarnita.metsky.R;
 import com.tifaniwarnita.metsky.models.CuacaSerializable;
 
 import java.util.ArrayList;

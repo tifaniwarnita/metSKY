@@ -1,15 +1,13 @@
-package com.tifaniwarnita.metsky;
+package com.tifaniwarnita.metsky.views.kenaliawan;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
+import com.tifaniwarnita.metsky.R;
 import com.tifaniwarnita.metsky.controllers.MetSkyPreferences;
 
 public class KenaliAwanActivity extends AppCompatActivity {

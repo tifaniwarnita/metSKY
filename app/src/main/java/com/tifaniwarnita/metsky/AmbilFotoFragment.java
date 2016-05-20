@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.tifaniwarnita.metsky.views.home.MainActivityListener;
+
 
 public class AmbilFotoFragment extends Fragment {
     private static final String ARG_PHOTO = "photo";

@@ -1,4 +1,4 @@
-package com.tifaniwarnita.metsky;
+package com.tifaniwarnita.metsky.views.auth;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.Auth;
+import com.tifaniwarnita.metsky.R;
 import com.tifaniwarnita.metsky.controllers.AuthenticationHandler;
 
 

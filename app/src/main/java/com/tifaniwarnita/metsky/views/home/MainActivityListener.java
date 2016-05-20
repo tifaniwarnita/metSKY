@@ -1,4 +1,4 @@
-package com.tifaniwarnita.metsky;
+package com.tifaniwarnita.metsky.views.home;
 
 /**
  * Created by Tifani on 4/7/2016.
