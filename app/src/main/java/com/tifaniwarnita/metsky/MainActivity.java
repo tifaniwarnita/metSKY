@@ -189,12 +189,8 @@ public class MainActivity extends AppCompatActivity
                         break;
                     case 5:     // Bagikan
                         drawer.closeDrawer(Gravity.LEFT);
-                        goToMenuBagikan();
-                        fm = getSupportFragmentManager();
-                        fm.beginTransaction()
-                                .replace(R.id.main_fragment_container, new BagikanFragment())
-                                .addToBackStack(null)
-                                .commit();
+                        intent = new Intent(MainActivity.this, BagikanActivity.class);
+                        startActivity(intent);
                         break;
                     case 6:     // Profil
                         break;
@@ -497,14 +493,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Keadaan Cuaca");
-        toggle.setDrawerIndicatorEnabled(false);
-    }
-
-    @Override
-    public void goToMenuBagikan() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Bagikan");
         toggle.setDrawerIndicatorEnabled(false);
     }
 

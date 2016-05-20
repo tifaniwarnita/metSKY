@@ -91,6 +91,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tifaniwarnita.metsky.MainActivity" />
         </activity>
+        <activity
+            android:name=".BagikanActivity"
+            android:label="@string/title_activity_bagikan"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tifaniwarnita.metsky.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

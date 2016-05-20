@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="?baseColor"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".BagikanActivity"
+    tools:showIn="@layout/activity_bagikan">
+
+    <Button
+        android:id="@+id/bagikan_facebook"
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Bagikan di Facebook"
+        android:background="#3B5998"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/bagikan_twitter"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Bagikan di Twitter"
+        android:background="#55ACEE"
+        android:textColor="@android:color/white"/>
+
+    <Button
+        android:id="@+id/bagikan_google"
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bagikan di Google+"
+        android:background="#DC4E41"
+        android:textColor="@android:color/white"/>
+
+</LinearLayout>
+

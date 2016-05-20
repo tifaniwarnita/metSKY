@@ -116,10 +116,11 @@ public class FirebaseHandler {
     }
 
     public static void sendUmpanBalik(Context context, String nama, String email, String feedback) {
-        Map<String, String> umpanBalik = new HashMap<String, String>();
+        Map<String, Object> umpanBalik = new HashMap<String, Object>();
         umpanBalik.put("nama", nama);
         umpanBalik.put("email", email);
         umpanBalik.put("feedback", feedback);
+
         FirebaseConfig.ref.child("umpan_balik").push().setValue(umpanBalik);
         Toast.makeText(context, "Umpan balik berhasil dikirim", Toast.LENGTH_SHORT).show();
     }
